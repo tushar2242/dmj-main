@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const addToCart = localStorage.getItem(addtocart)
+// const addToCart = localStorage.getItem(addtocart)
 
 const initialState = {
     search: 'd',
-    addToCartProducts: addToCart,
 }
 
 const productSlice = createSlice({
