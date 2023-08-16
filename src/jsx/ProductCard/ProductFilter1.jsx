@@ -38,7 +38,9 @@ function ProductFilter1() {
 
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchMainCategory()
+    
   }, [])
 
 
@@ -90,8 +92,8 @@ function ProductFilter1() {
               <ul className="cate-flt-list">
                 <li className="subcat-font">
                   <input type="checkbox" id="all" />
-                  <label htmlFor="all">All Footwear</label>
-                  <span className="count">123K</span>
+                  <label htmlFor="all">2.2</label>
+                  <span className="count">2.2</span>
                 </li>
                 {/* <li className="subcat-font"><input type="checkbox" id="low" /><label htmlFor="low">Low-Top Sneakers</label><span className="count">97K</span>
                 </li>
@@ -118,14 +120,14 @@ function ProductFilter1() {
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
-          <Typography className="pro-hd-font">Designer</Typography>
+          <Typography className="pro-hd-font">Color</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
             {/* <input className="dsearch" type="text" placeholder="Search Designers" name="search" /> */}
 
             <ul className="categories sh-list-flt">
-              <li className="subcat-font"><input type="checkbox" id="sup" /><label htmlFor="sup">Supreme</label><span className="count">123K</span>
+              <li className="subcat-font"><input type="checkbox" id="sup" /><label htmlFor="sup">Red</label><span className="count">Red</span>
               </li>
               {/* <li className="subcat-font"><input type="checkbox" id="bape" /><label htmlFor="bape">Bape</label><span className="count">97K</span>
               </li>
@@ -134,7 +136,7 @@ function ProductFilter1() {
               <li className="subcat-font"><input type="checkbox" id="bal" /><label htmlFor="bal">Balenciaga</label><span className="count">31K</span>
               </li>
               <li className="subcat-font"><input type="checkbox" id="prada" /><label htmlFor="prada">Prada</label><span className="count">23K</span></li> */}
-              <li className="subcat-font"><input type="checkbox" id="formal" /><label htmlFor="formal">Formal Shoes</label><span className="count">18K</span></li>
+              <li className="subcat-font"><input type="checkbox" id="formal" /><label htmlFor="formal">Green</label><span className="count">Green</span></li>
             </ul>
           </Typography>
         </AccordionDetails>

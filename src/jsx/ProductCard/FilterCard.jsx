@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const proto = "http://137.184.3.191:8080/DMJ/";
 const endPoint = "api/v1/products/search?query=j";
@@ -32,6 +33,7 @@ const FilterCard = () => {
 
   useEffect(() => {
     fetData();
+    window.scrollTo(0, 0);
   }, [searchSelctor]);
 
   return (
@@ -41,7 +43,7 @@ const FilterCard = () => {
           {searchData.length > 0 &&
             searchData.map((sItem) => {
               return (
-               <ProductItemCard
+                <ProductItemCard
                   img={proto + "images/" + sItem.thum_image}
                   key={sItem.id}
                   title={sItem.seo_title}
@@ -59,15 +61,18 @@ const FilterCard = () => {
 export default FilterCard;
 
 const ProductItemCard = ({ img, title, price, id }) => {
+
+  const navigate = useNavigate();
+
   function RedirectDetailsPage(id) {
     navigate("/productDetails", { state: { id: id } });
     localStorage.setItem("productId", id);
   }
   return (
     <>
-     <div className="grid-column">
+      <div className="grid-column">
         <div className="text-decoration-none pro-cd-flt-box">
-          
+
           <div
             className="card__container shadow-sm"
             onClick={() => RedirectDetailsPage(id)}
@@ -77,28 +82,28 @@ const ProductItemCard = ({ img, title, price, id }) => {
               <div className="pro-img-box">
                 <img src={img} alt="product" className="pro-img-card" />
               </div>
-             <NavLink to="/wishlist"><div className="card__top__section__icons">
+              <NavLink to="/wishlist"><div className="card__top__section__icons">
                 <FavoriteBorderIcon className="card-pro-icon" />
-               
-              </div></NavLink> 
+
+              </div></NavLink>
             </div>
- 
+
             <NavLink to="/productDetails" className="text-decoration-none">
               {" "}
               <p className="trend-cont-fnt ms-2">{title}</p>
             </NavLink>
             <div className="d-flex">
-            <p className="strike-text1">
-              <b>
-                <CurrencyRupeeIcon className="rup-icon-sz" /> 249.00
-              </b>
-            </p>
-            <p className="trend-price1">
-              <b>
-                <CurrencyRupeeIcon className="rup-icon-sz ms-1" />1249.00
-              </b>
-              <span className="span-pr-fnt">on wards</span>
-            </p>
+              <p className="strike-text1">
+                <b>
+                  <CurrencyRupeeIcon className="rup-icon-sz" /> 249.00
+                </b>
+              </p>
+              <p className="trend-price1">
+                <b>
+                  <CurrencyRupeeIcon className="rup-icon-sz ms-1" />1249.00
+                </b>
+                <span className="span-pr-fnt">on wards</span>
+              </p>
             </div>
             <div className="d-flex p-2">
               <p className="trend-rt-box1">
@@ -110,16 +115,16 @@ const ProductItemCard = ({ img, title, price, id }) => {
             </div>
 
             <NavLink to="/addToCart">
-               <div className="ft-add-cart-btn"><button className="trend-cart-btn1">
-                  <b>Add To Cart</b>
-                </button></div> 
-              </NavLink>
+              <div className="ft-add-cart-btn"><button className="trend-cart-btn1">
+                <b>Add To Cart</b>
+              </button></div>
+            </NavLink>
           </div>
-         
+
 
         </div>
       </div>
-      
+
     </>
   );
 };
