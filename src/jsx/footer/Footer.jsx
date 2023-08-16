@@ -59,7 +59,7 @@ const section = [
   },
   {
     title: 'Blog',
-    link: false
+    link: '/blog'
   },
   {
     title: 'FAQ',
@@ -177,6 +177,8 @@ export default class Footer extends React.Component {
   }
 }
 
+
+
 const FooterItem = ({ head, items, navi }) => {
 
 
@@ -212,7 +214,7 @@ const FooterItem = ({ head, items, navi }) => {
                       :
                       <li className="nav-link p-0 footer-text" onClick={() => {
                         handleNavigate(itemVal.title)
-                      }}>{itemVal.title}</li>
+                      }} style={{ cursor: "pointer" }}>{itemVal.title}</li>
                   }
 
                 </li>

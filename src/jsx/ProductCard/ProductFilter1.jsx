@@ -71,9 +71,6 @@ function ProductFilter1() {
               }
 
 
-
-
-
             </ul>
           </Typography>
         </AccordionDetails>
@@ -91,9 +88,12 @@ function ProductFilter1() {
             <ul data-accordion className="categories">
 
               <ul className="cate-flt-list">
-                <li className="subcat-font"><input type="checkbox" id="all" /><label htmlFor="all">All Footwear</label><span className="count">123K</span>
+                <li className="subcat-font">
+                  <input type="checkbox" id="all" />
+                  <label htmlFor="all">All Footwear</label>
+                  <span className="count">123K</span>
                 </li>
-                <li className="subcat-font"><input type="checkbox" id="low" /><label htmlFor="low">Low-Top Sneakers</label><span className="count">97K</span>
+                {/* <li className="subcat-font"><input type="checkbox" id="low" /><label htmlFor="low">Low-Top Sneakers</label><span className="count">97K</span>
                 </li>
                 <li className="subcat-font"><input type="checkbox" id="high" /><label htmlFor="high">High-Top Sneakers</label><span className="count">93K</span>
                 </li>
@@ -103,7 +103,7 @@ function ProductFilter1() {
                 <li className="subcat-font"><input type="checkbox" id="formal" /><label htmlFor="formal">Formal Shoes</label><span className="count">18K</span></li>
                 <li className="subcat-font"><input type="checkbox" id="sand" /><label htmlFor="sand">Sandals</label><span className="count">2K</span></li>
                 <li className="subcat-font"><input type="checkbox" id="slip" /><label htmlFor="slip">Slip Ons</label><span className="count">456</span>
-                </li>
+                </li> */}
 
               </ul>
 
@@ -127,13 +127,13 @@ function ProductFilter1() {
             <ul className="categories sh-list-flt">
               <li className="subcat-font"><input type="checkbox" id="sup" /><label htmlFor="sup">Supreme</label><span className="count">123K</span>
               </li>
-              <li className="subcat-font"><input type="checkbox" id="bape" /><label htmlFor="bape">Bape</label><span className="count">97K</span>
+              {/* <li className="subcat-font"><input type="checkbox" id="bape" /><label htmlFor="bape">Bape</label><span className="count">97K</span>
               </li>
               <li className="subcat-font"><input type="checkbox" id="gucci" /><label htmlFor="gucci">Gucci</label><span className="count">93K</span>
               </li>
               <li className="subcat-font"><input type="checkbox" id="bal" /><label htmlFor="bal">Balenciaga</label><span className="count">31K</span>
               </li>
-              <li className="subcat-font"><input type="checkbox" id="prada" /><label htmlFor="prada">Prada</label><span className="count">23K</span></li>
+              <li className="subcat-font"><input type="checkbox" id="prada" /><label htmlFor="prada">Prada</label><span className="count">23K</span></li> */}
               <li className="subcat-font"><input type="checkbox" id="formal" /><label htmlFor="formal">Formal Shoes</label><span className="count">18K</span></li>
             </ul>
           </Typography>
