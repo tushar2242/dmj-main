@@ -40,7 +40,7 @@ function ProductFilter1() {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchMainCategory()
-    
+
   }, [])
 
 

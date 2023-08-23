@@ -68,6 +68,8 @@ const responsive1 = {
 function Product() {
 
 
+
+
   const [quantity, setQuantity] = useState(1)
   const [showDescription, setShowDescription] = useState(true);
   const [showReview, setShowReview] = useState(false);
@@ -98,24 +100,24 @@ function Product() {
 
   };
 
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items:2
-    }
-  };
+  // const responsive = {
+  //   superLargeDesktop: {
+  //     breakpoint: { max: 4000, min: 3000 },
+  //     items: 5
+  //   },
+  //   desktop: {
+  //     breakpoint: { max: 3000, min: 1024 },
+  //     items: 4
+  //   },
+  //   tablet: {
+  //     breakpoint: { max: 1024, min: 464 },
+  //     items: 4
+  //   },
+  //   mobile: {
+  //     breakpoint: { max: 464, min: 0 },
+  //     items: 2
+  //   }
+  // };
 
 
   const fetchData = async () => {
@@ -123,8 +125,9 @@ function Product() {
     try {
       const res = await axios.get(url + endPoint + id)
       setItemInfo(res.data.data)
-      // console.log(url+'images/' +itemInfo.thum_image+id)
+      // console.log(res.data.data)
       setIsLoad(false)
+      await setSelectedImage(res.data.data.thum_image)
     }
     catch (err) {
       console.log(err)
@@ -134,7 +137,8 @@ function Product() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchData()
+    fetchData();
+
   }, []);
 
 
@@ -145,7 +149,7 @@ function Product() {
 
   const handleImageClick = (image) => {
     // console.log(image);
-    setSelectedImage(image.url);
+    setSelectedImage(image);
   };
 
 
@@ -166,6 +170,7 @@ function Product() {
       {!isLoad ? <div className="MainDiv">
         <div className="topPart">
           <div className="img">
+
             {/* {selectedImage ? <img src={selectedImage} alt="Item 2" className='CarouselImageTop' />
               : <img src={url + 'images/' + itemInfo.thum_image} className='CarouselImageTop' alt="Item 2" />} */}
 
@@ -174,7 +179,7 @@ function Product() {
 
 
 
-<div className="carouselmini">
+            <div className="carouselmini">
               <div className="upperSmallCarousel">
                 <Swiper
                   direction={'vertical'}
@@ -216,11 +221,11 @@ function Product() {
                   width: 340,
 
 
-                  src: url + 'images/' + itemInfo.thum_image,
+                  src: url + 'images/' + selectedImage,
 
                 },
                 largeImage: {
-                  src: url + 'images/' + itemInfo.thum_image,
+                  src: url + 'images/' + selectedImage,
                   width: 1200,
                   height: 1800,
                 },
@@ -407,8 +412,8 @@ const RelatedProduct = () => {
   async function fetchData() {
     try {
       const res = await axios.get(url + productEndPoint)
-      console.log(res.data.data)
-      setReletedProduct(res.data.data)
+      // console.log(res.data.data)
+      setReletedProduct(res.data.data.order)
     }
     catch (err) {
       console.log(err)

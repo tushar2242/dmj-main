@@ -21,7 +21,15 @@
     font-size:18px;
     font-weight:500;
     cursor:pointer;
+
+    padding: 5px;
 }
+
+.td-tab-active{
+    border: none;
+    border-bottom: solid 2px #b79d33;
+}
+
 .react-tabs__tab-list {
     border-bottom:none !important;
 

@@ -2,15 +2,17 @@ input[type="checkbox"] {
   margin-right: 12px;
   font-weight: 100;
 }
+
 .dsearch {
   width: 100%;
   padding: 12px;
   border-radius: 2px;
   margin-bottom: 12px;
   font-size: 13px;
-  font-weight:500;
+  font-weight: 500;
   letter-spacing: 0.75px;
 }
+
 .pricein {
   width: 49%;
   padding: 12px;
@@ -18,6 +20,7 @@ input[type="checkbox"] {
   margin-bottom: 12px;
   font-size: 12px;
 }
+
 .count {
   font-size: 10px;
   line-height: 14px;
@@ -32,6 +35,7 @@ input[type="checkbox"] {
   position: relative;
   cursor: pointer;
 }
+
 input[type="checkbox"]:before {
   content: "";
   display: block;
@@ -46,13 +50,16 @@ input[type="checkbox"]:before {
   border-radius: 2px;
   background-color: white;
 }
+
 input[type="checkbox"]:checked:before {
   border: 1px solid blue;
   background: blue;
 }
-input[type="checkbox"]:checked + label {
+
+input[type="checkbox"]:checked+label {
   color: blue;
 }
+
 input[type="checkbox"]:checked:after {
   content: "";
   display: block;
@@ -70,74 +77,88 @@ input[type="checkbox"]:checked:after {
   margin-left: -4px;
 }
 
-.accor-width{
-  width:300px;
+.accor-width {
+  width: 300px;
   // border:solid 0.10px rgb(224, 224, 224);
   // margin:20px;
-  padding:10px;
-  box-shadow:2px 2px 1px 1px rgb(241, 241, 241);
+  padding: 10px;
+  box-shadow: 2px 2px 1px 1px rgb(241, 241, 241);
   text-transform: capitalize;
   // border-radius: 10px;
 
 }
-.pro-hd-font{
-  font-size:17px !important;
-  font-weight:600 !important;
+
+.pro-hd-font {
+  font-size: 17px !important;
+  font-weight: 600 !important;
   letter-spacing: 0.75px !important;
 }
+
 .css-ahj2mt-MuiTypography-root {
   font-family: none !important;
 }
+
 .css-1elwnq4-MuiPaper-root-MuiAccordion-root {
-  box-shadow:none !important;
+  box-shadow: none !important;
 }
-.subcat-font{
-  font-size:14px;
+
+.subcat-font {
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.75px;
-  margin-top:5px;
+  margin-top: 5px;
 }
-.coll-btn{
-  background-color:white !important;
-  border-radius:0px !important;
-  border:solid 1px grey !important;
-  padding-top:10px;
-  padding-bottom:10px;
-  padding-left:50px;
-  padding-right:50px;
-  width:100%;
-  cursor:pointer;
-  font-size:16px;
+
+.coll-btn {
+  background-color: white !important;
+  border-radius: 0px !important;
+  border: solid 1px grey !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
   font-weight: 500;
 }
-.coll-btn:hover{
+
+.coll-btn:hover {
   background-color: rgb(230, 228, 228) !important;
 }
-.coll-btn-box{
-  margin:25px;
+
+.coll-btn-box {
+  margin: 25px;
 }
-.categories li{
+
+.categories li {
   list-style: none !important;
 }
+
 .css-15v22id-MuiAccordionDetails-root {
-   padding:0px !important; 
+  padding: 0px !important;
 }
-ul.cate-flt-list{
-  padding:0px !important;
+
+ul.cate-flt-list {
+  padding: 0px !important;
 }
-.pro-cd-flt-box{
-  padding:3px;
+
+.pro-cd-flt-box {
+  padding: 3px;
 }
-@media only screen and (max-width:767.98px){
-  .accor-width{
-    width:95%;
-    border:solid 0.50px rgb(202, 202, 202);
-    margin:10px;
+
+@media only screen and (max-width:767.98px) {
+  .accor-width {
+    width: 95%;
+    border: solid 0.50px rgb(202, 202, 202);
+    margin: 10px;
   }
-  ul.cate-flt-list{
-    padding:5px !important;
+
+  ul.cate-flt-list {
+    padding: 5px !important;
   }
-  .sh-list-flt{
-    padding-left:10px !important
+
+  .sh-list-flt {
+    padding-left: 10px !important
   }
 }

@@ -36,26 +36,26 @@ const info = [
   },
   {
     title: 'Refund & Returns',
-    link: false
+    link: '/refundpolicy'
   },
   {
     title: 'Terms & Conditions',
-    link: false
+    link: '/termscondition'
   },
   {
     title: ' Privacy Policy',
-    link: false
+    link: '/privacypolicy'
   },
   {
     title: 'Contact Us',
-    link: false
+    link: '/contactUs'
   }
 ]
 
 const section = [
   {
     title: 'About DMJ',
-    link: false
+    link: '/about'
   },
   {
     title: 'Blog',
@@ -63,15 +63,15 @@ const section = [
   },
   {
     title: 'FAQ',
-    link: false
+    link: '/faq'
   },
   {
     title: ' Track Your Order',
-    link: false
+    link: '/trackOrder'
   },
   {
     title: 'Help',
-    link: false
+    link: '/faq'
   }
 ]
 

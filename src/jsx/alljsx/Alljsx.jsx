@@ -5,7 +5,7 @@ import '../../assets/css/about.css';
 import '../../assets/css/style.css';
 // import './assets/css/style2.css';
 import '../../assets/css/billing.css';
-import '../../assets/css/bootstrap.min.css';
+// import '../../assets/css/bootstrap.min.css';
 import '../../assets/css/buy.css';
 import '../../assets/css/cart.css';
 import '../../assets/css/contact.css';
@@ -29,7 +29,7 @@ export default class Alljsx extends React.Component {
                 <Navbar />
 
                 {/* <JwelleryDetails /> */}
-                
+
                 <Footer />
             </>
         )

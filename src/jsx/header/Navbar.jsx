@@ -13,6 +13,11 @@ import ThreeLine from '@mui/icons-material/DehazeOutlined';
 import CrossIcon from '@mui/icons-material/CloseOutlined';
 
 
+
+// const url = 'http://137.184.3.191:8080/DMJ/';
+// const endPoint = 'api/v1/category/maincategory';
+
+
 function Navbar() {
 
     const [isJwelOpen, setIsJwelOpen] = useState(false);
@@ -50,9 +55,10 @@ function Navbar() {
             <div className="nav-outer-dropdown nav-drop-shadow shadow">
 
                 <div className="navOuter shadow-sm">
-                    <NavLink to="/"><div className="nav-logo">
-                        <img src={logo} alt="logo" />
-                    </div>
+                    <NavLink to="/">
+                        <div className="nav-logo">
+                            <img src={logo} alt="logo" />
+                        </div>
                     </NavLink>
                     <ul>
                         <div className="nav-product">
@@ -204,13 +210,13 @@ function Navbar() {
                     }
                 </div>
 
-                {isJwelOpen ? <NavbarDropdown title='Jwellery' /> : null}
+                {isJwelOpen ? <NavbarDropdown title='jewellery' /> : null}
                 {isArtOpen ? <NavbarDropdown title='art' /> : null}
                 {isCarpet ? <NavbarDropdown title='carpet' /> : null}
 
 
             </div>
-         
+
 
         </>
     )

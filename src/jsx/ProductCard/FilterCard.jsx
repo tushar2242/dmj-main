@@ -24,8 +24,8 @@ const FilterCard = () => {
   const fetData = async () => {
     try {
       const res = await axios.get(`${proto}${endPoint}${searchSelctor}`);
-      // console.log(res.data.data)
-      setSearchData(res.data.data);
+      console.log(res.data.data.order)
+      setSearchData(res.data.data.order);
     } catch (error) {
       console.log(error);
     }
@@ -46,8 +46,7 @@ const FilterCard = () => {
                 <ProductItemCard
                   img={proto + "images/" + sItem.thum_image}
                   key={sItem.id}
-                  title={sItem.seo_title}
-                  id={sItem.id}
+                  item={sItem}
                 />
               );
             })}
@@ -60,12 +59,16 @@ const FilterCard = () => {
 
 export default FilterCard;
 
-const ProductItemCard = ({ img, title, price, id }) => {
+
+
+
+
+const ProductItemCard = ({ img, item }) => {
 
   const navigate = useNavigate();
 
-  function RedirectDetailsPage(id) {
-    navigate("/productDetails", { state: { id: id } });
+  function RedirectDetailsPage(id, dir) {
+    navigate(dir, { state: { id: id } });
     localStorage.setItem("productId", id);
   }
   return (
@@ -75,32 +78,37 @@ const ProductItemCard = ({ img, title, price, id }) => {
 
           <div
             className="card__container shadow-sm"
-            onClick={() => RedirectDetailsPage(id)}
+            onClick={() => RedirectDetailsPage(item.id, "/productDetails")}
           >
             <div className="bg-box"></div>
             <div className="card__top__section">
               <div className="pro-img-box">
                 <img src={img} alt="product" className="pro-img-card" />
               </div>
-              <NavLink to="/wishlist"><div className="card__top__section__icons">
-                <FavoriteBorderIcon className="card-pro-icon" />
-
-              </div></NavLink>
+              <div
+                onClick={() => RedirectDetailsPage(id, "/wishlist")}
+                className="text-decoration-none"
+              ><div className="card__top__section__icons">
+                  <FavoriteBorderIcon className="card-pro-icon" />
+                </div>
+              </div>
             </div>
 
-            <NavLink to="/productDetails" className="text-decoration-none">
-              {" "}
-              <p className="trend-cont-fnt ms-2">{title}</p>
-            </NavLink>
+            <div
+              onClick={() => RedirectDetailsPage(id, "/productDetails")}
+              className="text-decoration-none">
+
+              <p className="trend-cont-fnt ms-2">{item.name}</p>
+            </div>
             <div className="d-flex">
               <p className="strike-text1">
                 <b>
-                  <CurrencyRupeeIcon className="rup-icon-sz" /> 249.00
+                  <CurrencyRupeeIcon className="rup-icon-sz" /> {item.manualPrice}
                 </b>
               </p>
               <p className="trend-price1">
                 <b>
-                  <CurrencyRupeeIcon className="rup-icon-sz ms-1" />1249.00
+                  <CurrencyRupeeIcon className="rup-icon-sz ms-1" />{item.price}
                 </b>
                 <span className="span-pr-fnt">on wards</span>
               </p>
