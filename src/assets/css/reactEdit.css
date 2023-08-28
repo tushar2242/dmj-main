@@ -1,4 +1,3 @@
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -174,7 +173,7 @@ login-bg {
 .fullpage-bg {
   background-color: rgb(238, 243, 248);
   padding-top: 60px;
-  height: 595px;
+  /* height: 595px; */
 }
 
 .login-input {
@@ -336,7 +335,8 @@ login-bg {
 
 .login-bg {
   background-color: white;
-  width: 30%;
+  max-width: 350px;
+  width: 100%;
   margin: auto;
   height: 80vh
 }
@@ -357,17 +357,14 @@ login-bg {
 
 @media only screen and (min-width:320px) and (max-width:767px) {
   .login-bg {
-    background-color: white;
-    width: 98%;
-    margin: auto;
     height: 100vh
   }
 
   .fullpage-bg {
     background-color: rgb(213, 217, 230);
     padding-top: 0px;
-    height: 500px;
-    position: fixed
+
+    /* position: fixed */
   }
 
   .user-login {
@@ -500,11 +497,11 @@ login-bg {
     height: 100vh
   }
 
-  .fullpage-bg {
+  .fullpage-bg .fullpage-bg {
     background-color: rgb(213, 217, 230);
     padding-top: 0px;
     height: 500px;
-    position: fixed
+    /* position: fixed/ */
   }
 
   .user-login {

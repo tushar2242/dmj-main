@@ -18,6 +18,7 @@ const ProductWrapper = () => {
     const fetchData = async () => {
         try {
             const res = await axios.get(proto + endPoint)
+            // console.log(res.data.data)
             setCateData(res.data.data)
         }
         catch (err) {
@@ -195,8 +196,8 @@ class SmallImageCard extends React.Component {
                     <NavLink to='/search' className="text-decoration-none home-text">
                         <div className="product-card-box">
                             <img src={proto + '/images/' + img} className="img-fluid rounded new-img" alt="design" />
-                        <p className="mt-3 perfect-text">{name}</p>
-                        <p className="sale-offer">Up to 50%</p>
+                            <p className="mt-3 perfect-text">{name}</p>
+                            <p className="sale-offer">Up to 50%</p>
                         </div>
                     </NavLink>
                 </div>
@@ -243,6 +244,7 @@ const responsive = {
 const CarouselForProduct = (props) => {
 
     const { productData } = props;
+    // console.log(productData)
 
 
     const { item } = props;
@@ -288,6 +290,7 @@ const CarouselForProduct = (props) => {
                     })}
                 </Carousel>
                 :
+                // <p>this is image</p>
                 // If item is not 'img', render a ProductCard for each image
                 <Carousel
                     swipeable={true}
@@ -337,14 +340,14 @@ class CarouselCard extends React.Component {
         const { img, title } = this.props;
         return (
             <>
-            <NavLink to="/search" className="text-decoration-none"><div className="product-card-box">
-                <div className='sliderCard'>
-                    <div className="sliderCardImg">
-                        <img src={proto + '/images/' + img} className="img-fluid sliderImg" alt="Image" />
+                <NavLink to="/search" className="text-decoration-none"><div className="product-card-box">
+                    <div className='sliderCard'>
+                        <div className="sliderCardImg">
+                            <img src={proto + '/images/' + img} className="img-fluid sliderImg" alt="Image" />
+                        </div>
+                        <p className="mt-3 product-font text-center">{title}</p>
+                        <p className="sale-offer text-center">Up to 50%</p>
                     </div>
-                    <p className="mt-3 product-font text-center">{title}</p>
-                    <p className="sale-offer text-center">Up to 50%</p>
-                </div>
                 </div>
                 </NavLink>
             </>
@@ -371,14 +374,14 @@ class ProductCard extends React.Component {
                     </div>
                 </div> */}
 
-          <NavLink to="/search" className="text-decoration-none"><div className="product-card-box">
-                <div className='sliderCard'>
-                    <div className="sliderCardImg">
-                        <img src={img} className="img-fluid sliderImg" alt="Image" />
+                <NavLink to="/search" className="text-decoration-none"><div className="product-card-box">
+                    <div className='sliderCard'>
+                        <div className="sliderCardImg">
+                            <img src={img} className="img-fluid sliderImg" alt="Image" />
+                        </div>
+                        <p className="mt-3 product-font text-center">Jewellery</p>
+                        <p className="sale-offer text-center">Up to 50%</p>
                     </div>
-                    <p className="mt-3 product-font text-center">Jewellery</p>
-                    <p className="sale-offer text-center">Up to 50%</p>
-                </div>
                 </div>
                 </NavLink>
             </>

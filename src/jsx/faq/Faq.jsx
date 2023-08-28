@@ -6,6 +6,19 @@ import Banner from '../Banner/Banner';
 import Footer from '../footer/Footer';
 
 export default class Faq extends React.Component {
+    constructor(props) {
+        super(props)
+        // this.state={}
+
+        this.componentDidMount = this.componentDidMount.bind(this)
+    }
+
+
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
+
+
     render() {
         return (
             <>

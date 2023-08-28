@@ -14,7 +14,7 @@ import TrendingProducts from '../carousel/TrendingProducts'
 
 const proto = 'http://137.184.3.191:8080/DMJ/';
 const endPoint = 'api/v1/banner';
-const searchEndPoint = 'api/v1/products'
+const searchEndPoint = 'api/v1/products';
 
 
 const Home = () => {
@@ -107,19 +107,19 @@ const MainCarousel = ({ bannerData }) => {
                 prevIcon={<i className="bi bi-arrow-left-circle-fill text-dark fs-1"></i>}
 
             >
-                { bannerData.map((banner) => {
-                        return (
-                            <Carousel.Item key={banner.id}>
-                                <img
-                                    className="banner-size"
-                                    src={`${proto}images/${banner.image}`}
-                                    alt="slide"
-                                    // style={{ height: '70vh' }}
-                                />
+                {bannerData.map((banner) => {
+                    return (
+                        <Carousel.Item key={banner.id}>
+                            <img
+                                className="banner-size"
+                                src={`${proto}images/${banner.image}`}
+                                alt="slide"
+                            // style={{ height: '70vh' }}
+                            />
 
-                            </Carousel.Item>
-                        )
-                    })
+                        </Carousel.Item>
+                    )
+                })
                 }
 
 

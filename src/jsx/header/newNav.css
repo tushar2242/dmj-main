@@ -76,6 +76,7 @@
   justify-content: space-around;
 
   margin-right: 20px;
+  /* position: relative; */
 }
 .nav-account .nav-box {
   /* width: 100px; */
@@ -214,6 +215,40 @@
   max-width: 270px;
   width: 100%;
 }
+
+.more-profile{
+  position: absolute;
+  top: 50px;
+  right: 20px;
+
+  padding: 10px;
+  z-index: -1;
+
+  width: 130px;
+  /* height: 100px;/ */
+
+  text-align: center;
+  background-color: #d1b647;
+
+  list-style: none;
+  color: white;
+
+  /* border: solid 1px #d1b647;
+  border-radius: 5px; */
+}
+
+.more-profile li{
+  cursor: pointer;
+  /* margin-top: 10px; */
+}
+
+.more-profile li:hover{
+    color: black;
+}
+
+
+
+
 
 @media only screen and (max-width: 1100px) {
   .navOuter {

@@ -17,6 +17,7 @@ import CrossIcon from '@mui/icons-material/CloseOutlined';
 // const url = 'http://137.184.3.191:8080/DMJ/';
 // const endPoint = 'api/v1/category/maincategory';
 
+const userId = localStorage.getItem('userId')
 
 function Navbar() {
 
@@ -26,6 +27,8 @@ function Navbar() {
     const [isMobNav, setIsMobNav] = useState(true)
 
     const [search, setSearch] = useState('');
+
+    const [profile, setProfile] = useState(false)
 
     const dispatch = useDispatch()
     const searchTxt = useSelector(state => state.product.search.payload)
@@ -48,6 +51,13 @@ function Navbar() {
     async function handleProSearch() {
         navigate('/search')
     }
+
+
+    async function handleProfile() {
+        setProfile(true)
+    }
+
+
 
     return (
         <>
@@ -112,9 +122,18 @@ function Navbar() {
                         <img src={searchIcon} className='nav-search-icon' onClick={handleProSearch} />
                     </div>
                     <div className="nav-account">
-                        <div className="nav-box">
-                            <NavLink><i className="bi bi-person-circle nav-icon-item ms-5"></i></NavLink>
+                        <div className="nav-box" onClick={() => { setProfile(!profile) }}>
+                            <i className="bi bi-person-circle nav-icon-item ms-5"></i>
                         </div>
+                        {profile && <div className="more-profile">
+                            {!userId ? <li onClick={async () => { navigate('/login') }}>Login / Sign Up</li>
+                                : <>
+                                    <li>Profile</li>
+                                    <li className='mt-2'>Sign Out</li>
+                                </>
+                            }
+
+                        </div>}
                         <div className="nav-box">
                             <NavLink to="/wishlist"> <i className="bi bi-suit-heart-fill nav-icon-item ms-4"></i></NavLink>
                         </div>
@@ -195,9 +214,18 @@ function Navbar() {
                                 <img src={searchIcon} className='nav-search-icon' onClick={handleProSearch} />
                             </div>
                             <div className="nav-account">
-                                <div className="nav-box">
+                                <div className="nav-box" onClick={() => { setProfile(!profile) }}>
                                     <i className="bi bi-person-circle nav-icon-item ms-5"></i>
                                 </div>
+                                {profile && <div className="more-profile">
+                                    {userId ? <li onClick={async () => { navigate('/login') }}>Login / Sign Up</li>
+                                        : <>
+                                            <li>Profile</li>
+                                            <li className='mt-2'>Sign Out</li>
+                                        </>
+                                    }
+
+                                </div>}
                                 <div className="nav-box">
                                     <i className="bi bi-suit-heart-fill nav-icon-item ms-4"></i>
                                 </div>

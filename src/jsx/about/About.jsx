@@ -9,8 +9,14 @@ import managerImg from '../../assets/images/Rectangle 119.png';
 import Banner from '../Banner/Banner';
 
 export default class About extends React.Component {
-    render() {
 
+
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
+
+    render() {
+v
         return (
             <>
                 <HeaderCon />

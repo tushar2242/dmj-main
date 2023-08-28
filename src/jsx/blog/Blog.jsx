@@ -8,6 +8,10 @@ import { NavLink } from 'react-router-dom';
 import Banner from '../Banner/Banner';
 
 export default class Blog extends React.Component {
+
+    componentDidMount(){
+        window.scrollTo(0,0)
+    }
     render() {
         return (
             <>

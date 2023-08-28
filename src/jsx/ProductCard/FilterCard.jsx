@@ -24,7 +24,7 @@ const FilterCard = () => {
   const fetData = async () => {
     try {
       const res = await axios.get(`${proto}${endPoint}${searchSelctor}`);
-      console.log(res.data.data.order)
+      // console.log(res.data.data.order)
       setSearchData(res.data.data.order);
     } catch (error) {
       console.log(error);
