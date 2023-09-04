@@ -11,12 +11,19 @@ export default class TrackOrder extends React.Component {
             trakEmail: ''
         }
         this.trackOrder = this.trackOrder.bind(this);
-
+        this.componentDidMount = this.componentDidMount.bind(this)
     }
 
-    trackOrder() {
+    trackOrder(e) {
+        e.preventDefault();
         console.log('fired');
     }
+
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
+
+
     render() {
         const { orderId, trakEmail } = this.state;
         return (
@@ -33,14 +40,14 @@ export default class TrackOrder extends React.Component {
                                 <form onSubmit={this.trackOrder}>
                                     <h6 className="mt-4"><b>Enter Details :</b></h6>
 
-                                    <label for="track_order" className="mt-3 label-font">Order ID</label><br />
+                                    <label htmlFor="track_order" className="mt-3 label-font">Order ID</label><br />
 
                                     <input type="text" className="box-style w-100" id="track_order" placeholder="Order ID"
                                         value={orderId}
                                         onChange={e => this.setState({ orderId: e.target.value, })}
                                     />
 
-                                    <label for="track_id" className="mt-3 label-font">Phone Number / Email ID</label><br />
+                                    <label htmlFor="track_id" className="mt-3 label-font">Phone Number / Email ID</label><br />
 
                                     <input type="email" className="box-style w-100" id="track_id" placeholder="Phone Number / Email ID"
                                         value={trakEmail}

@@ -163,7 +163,7 @@ abbr[title] {
 
 /* login page css additional here */
 
-login-bg {
+.login-bg {
   background-color: white;
   width: 30%;
   margin: auto;
@@ -172,7 +172,7 @@ login-bg {
 
 .fullpage-bg {
   background-color: rgb(238, 243, 248);
-  padding-top: 60px;
+  padding-top: 40px;
   /* height: 595px; */
 }
 
@@ -327,7 +327,6 @@ login-bg {
   align-items: baseline;
   justify-content: space-evenly;
 }
-
 
 
 

@@ -51,19 +51,19 @@ const LoginWithMobileNo = () => {
                                     <h6><b>Login</b></h6>
                                     <form onSubmit={handleSubmit}>
 
-                                        <input type="tel" className="login-input" id="login-number" placeholder="Mobile Number / Email-id *" value={mobileNo} onChange={(e) => {
+                                        <input type="text" className="login-input" id="login-number" placeholder="Mobile Number / Email-id *" value={mobileNo} onChange={(e) => {
                                             setMobileNo(e.target.value)
-                                        }} />
+                                        }} required/>
 
-                                        <input type="password" className="login-input" id="login-number" placeholder="Enter the Password*" value={password} onChange={(e) => {
+                                        <input type="password" className="login-input" id="login-number1" placeholder="Enter the Password*" value={password} onChange={(e) => {
                                             setPassword(e.target.value)
-                                        }} />
+                                        }} required/>
 
                                         {/* <label className="error" style={{ display: showError }}>Enter a Correct Email-Id / Phone No.</label> */}
                                         <br />
                                         <p className="tp-text">By Continuing, I agree to the <span className="tp-color"><b>Terms of Use & Privacy Policy</b></span></p>
                                         <button type="submit" className="continue-btn">CONTINUE</button>
-                                        <p className="tp-text">Have trouble logging in? <NavLink to="/" className="tp-color"><span className="text-danger"><b>Get help</b></span></NavLink></p>
+                                        <p className="tp-text">New to DMJ ? <NavLink to="/login" className="tp-color"><span className="text-danger"><b>Sign Up</b></span></NavLink></p>
                                     </form>
                                 </div>
                             </div>

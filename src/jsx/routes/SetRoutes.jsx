@@ -36,6 +36,7 @@ import Terms from '../terms/Terms'
 import Refund from '../refundpolicy/Refund'
 import TrendingProducts from '../carousel/TrendingProducts'
 import PaymentGateway from '../payment-gateway/PaymentGateway'
+import ReviewPage from '../reviewpage/ReviewPage';
 export default class SetRoutes extends React.Component {
     render() {
         return (
@@ -78,6 +79,8 @@ export default class SetRoutes extends React.Component {
                     <Route path='/trendingproducts' element={<TrendingProducts />} />
 
                     <Route path='/paymentgateway' element={<PaymentGateway />} />
+
+                    <Route path='/rating' element={<ReviewPage/>} />
                 </Routes>
 
             </>

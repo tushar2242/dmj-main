@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import HeaderCon from "../header/HeaderCon";
 import Navbar from "../header/Navbar";
 
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+// import RemoveIcon from "@mui/icons-material/Remove";
+// import AddIcon from "@mui/icons-material/Add";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "./Productdetail.css";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
-import TwitterIcon from "@mui/icons-material/Twitter";
+// import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+// import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+// import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
+// import TwitterIcon from "@mui/icons-material/Twitter";
 import axios from "axios";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../footer/Footer";
 import Loader from "../loader/Loader";
 import { ProductCard } from "../carousel/CarouselForHome";
@@ -23,30 +23,43 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // import './App.css'
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper/modules";
 import ReactImageMagnify from "react-image-magnify";
-import ShareIcon from "@mui/icons-material/Share";
+// import ShareIcon from "@mui/icons-material/Share";
 import img1 from "../../assets/images/earring.jpg";
+import img2 from "../../assets/images/ring1.jpg";
+import img3 from "../../assets/images/ring2.jpg";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import StarsIcon from "@mui/icons-material/Stars";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import Rating from "@mui/material/Rating";
-import Stack from "@mui/material/Stack";
+import Switch from "@mui/material/Switch";
 import deliveryicon from "../../assets/images/delivery.png";
 import payicon from "../../assets/images/payicon.png";
 import exchange from "../../assets/images/exchange.png";
+import { styled } from '@mui/material/styles';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+// import Switch from '@mui/material/Switch';
+// import Stack from '@mui/material/Stack';
+// import Typography from '@mui/material/Typography';
+
 
 
 const url = "http://137.184.3.191:8080/DMJ/";
-const endPoint = "api/v1/products/";
-const productEndPoint = "api/v1/products";
+const endPoint = "api/v1/products";
+const ratingEnd = 'api/v1/Rating/count'
+const variantEnd = 'api/v1/variantproduct/productId';
+const sizeEnd = 'api/v1/variantproduct/productIdwithSize/1?size='
+const colorEnd = 'api/v1/variantproduct/productIdwithColor/1?color=green'
 
+const id = localStorage.getItem("productId");
+
+
+// const productEndPoint = "api/v1/products";/
 
 const ProductDetails = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-
   return (
     <>
       <HeaderCon />
@@ -56,6 +69,9 @@ const ProductDetails = () => {
     </>
   );
 };
+
+
+
 const responsive1 = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -75,7 +91,45 @@ const responsive1 = {
   },
 };
 
+
+
+// export {fetchData}
+
 function Product() {
+
+  const fetchData = async () => {
+
+    if (id) {
+      try {
+        const res = await axios.get(url + endPoint + '/' + id);
+  
+        const ratingRes = await axios.get(url + ratingEnd + '/' + id)
+  
+  
+        setSelectedImage(res.data.data.thum_image)
+        // console.log(variantRes.data.data)
+        // setVariant(variantRes.data.data)
+  
+        setRating(ratingRes.data.data)
+  
+  
+  
+        setItemInfo(res.data.data);
+        // console.log(res.data.data)
+        setIsLoad(false);
+      } catch (err) {
+        console.log(err);
+        setIsLoad(false);
+      }
+    }
+  
+    else {
+      navigate('/')
+    }
+  
+  };
+  
+
   const [quantity, setQuantity] = useState(1);
   const [showDescription, setShowDescription] = useState(true);
   const [showReview, setShowReview] = useState(false);
@@ -85,6 +139,16 @@ function Product() {
 
   const [itemInfo, setItemInfo] = useState([]);
   const [isLoad, setIsLoad] = useState(true);
+
+  const [rating, setRating] = useState('');
+
+
+
+
+  const navigate = useNavigate()
+
+
+
 
   const handleDescriptionClick = () => {
     setShowDescription(true);
@@ -123,18 +187,6 @@ function Product() {
     },
   };
 
-  const fetchData = async () => {
-    const id = localStorage.getItem("productId");
-    try {
-      const res = await axios.get(url + endPoint + id);
-      setItemInfo(res.data.data);
-      // console.log(url+'images/' +itemInfo.thum_image+id)
-      setIsLoad(false);
-    } catch (err) {
-      console.log(err);
-      setIsLoad(false);
-    }
-  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -142,8 +194,8 @@ function Product() {
   }, []);
 
   const handleImageClick = (image) => {
-    // console.log(image);
-    setSelectedImage(image.url);
+    console.log(image);
+    setSelectedImage(image);
   };
 
   const location = useLocation();
@@ -157,65 +209,130 @@ function Product() {
       {!isLoad ? (
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-6 mt-5">
-              <div className="product-display stk-box-item">
-                <div className="carouselmini">
-                  <div className="upperSmallCarousel mobile-view-dply">
-                    <Swiper
-                      direction={"vertical"}
-                      slidesPerView={5}
-                      pagination={{
-                        clickable: true,
-                      }}
-                      Navigation={true}
-                      modules={[Navigation, Pagination]}
-                      className="mySwiper"
-                    >
-                      {!isLoad &&
-                        itemInfo.pictures.map((image, index) => (
-                          <div
-                            key={index}
-                            className="smalCarouselimg"
-                            onClick={() => handleImageClick(image)}
-                          >
-                            <img
-                              src={url + "images/" + image}
-                              alt={`Image ${index + 1}`}
-                            />
-                          </div>
-                        ))}
-                    </Swiper>
+            <div className="col-md-6 top-space-dt">
+              <div className="hid-mob-view stk-box-item">
+                <div className="product-display">
+                  <div className="carouselmini">
+                    <div className="upperSmallCarousel mobile-view-dply">
+                      <Swiper
+                        direction={"vertical"}
+                        slidesPerView={5}
+                        pagination={{
+                          clickable: true,
+                        }}
+                        Navigation={true}
+                        modules={[Navigation, Pagination]}
+                        className="mySwiper"
+                      >
+                        {!isLoad &&
+                          itemInfo.pictures.map((image, index) => (
+                            <div
+                              key={index}
+                              className="smalCarouselimg"
+                              onClick={() => handleImageClick(image)}
+                            >
+                              <img
+                                src={url + "images/" + image}
+                                alt={`Image ${index + 1}`}
+                              />
+                            </div>
+                          ))}
+                      </Swiper>
+                    </div>
                   </div>
+
+                  <ReactImageMagnify
+                    style={{ zIndex: "5" }}
+                    {...{
+                      smallImage: {
+                        alt: "product images",
+                        // isFluidWidth: true,
+                        height: 480,
+                        width: 340,
+
+                        src: url + "images/" + selectedImage,
+                      },
+                      largeImage: {
+                        src: url + "images/" + selectedImage,
+                        width: 1200,
+                        height: 1800,
+                      },
+                      enlargedImageContainerDimensions: {
+                        width: "200%",
+                        height: "120%",
+                      },
+                      isHintEnabled: true,
+                    }}
+                  />
                 </div>
+              </div>
 
-                <ReactImageMagnify
-                  style={{ zIndex: "5",maxWidth:'400px',width:'100%' }}
-                  {...{
-                    smallImage: {
-                      alt: "product image",
-                      // isFluidWidth: true,
-                      height: 480,
-                      width: 440,
-
-                      src: url + "images/" + itemInfo.thum_image,
-                    },
-                    largeImage: {
-                      src: url + "images/" + itemInfo.thum_image,
-                      width: 1200,
-                      height: 1800,
-                    },
-                    enlargedImageContainerDimensions: {
-                      width: "200%",
-                      height: "120%",
-                    },
-                    isHintEnabled: true,
-                  }}
-                />
+              <div className="desktop-dis-view">
+                <div
+                  id="carouselExampleAutoplaying"
+                  className="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div className="carousel-inner">
+                    <div className="carousel-item active">
+                      <img
+                        src={img1}
+                        className="img-fluid pro-slide-img-1"
+                        alt="image"
+                      />
+                    </div>
+                    <div className="carousel-item">
+                      <img
+                        src={img2}
+                        className="img-fluid pro-slide-img-1"
+                        alt="image"
+                      />
+                    </div>
+                    <div className="carousel-item">
+                      <img
+                        src={img3}
+                        className="img-fluid pro-slide-img-1"
+                        alt="image"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      className="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      className="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </div>
               </div>
             </div>
             <div className="col-md-6 mt-5">
               <div className="pt-mob-view">
-                <ProductPrice />
+                <ProductPrice
+                  title={itemInfo.seo_title}
+                  des={itemInfo.seo_description}
+                  // manualPrice={price.manualPrice}
+                  // price={price.price}
+                  // discount={price.discount}
+                  rating={rating}
+                />
 
                 <div className="mt-2" style={{ display: "flex" }}>
                   <div>
@@ -243,8 +360,8 @@ function Product() {
                     </button>
                   </form>
                   <p className="zip-code-fnt">
-                    Please enter PIN code to check delivery time & Pay on Delivery
-                    Availability
+                    Please enter PIN code to check delivery time & Pay on
+                    Delivery Availability
                   </p>
                   <div>
                     <DeliveryIcon
@@ -265,10 +382,14 @@ function Product() {
                 <OfferDetails />
                 <p className="tagline-line"></p>
                 <div className="mt-3">
-                  <DetailsBox />
+                  <DetailsBox
+                    des={itemInfo.description}
+                  />
 
                   <div>
-                    <button className="add-to-cart-btn-sz w-100">Buy Now</button>
+                    <button className="add-to-cart-btn-sz w-100">
+                      Buy Now
+                    </button>
                   </div>
                   <p className="tagline-line"></p>
                   <RatingBox />
@@ -281,8 +402,6 @@ function Product() {
                   <h6 className="text-primary">
                     <b>All 150 reviews</b>
                   </h6>
-
-                  <RatingForm />
                 </div>
               </div>
             </div>
@@ -307,77 +426,120 @@ function Product() {
 
 export default ProductDetails;
 
-const ProductPrice = () => {
+
+
+
+const ProductPrice = ({ title, des, rating }) => {
+
+
+  const [variant, setVariant] = useState([])
+
+  const [price, setPrice] = useState([]);
+
+
+
+  async function fetchVarient() {
+    try {
+      const variantRes = await axios.get(url + variantEnd + '/' + id);
+
+      setVariant(variantRes.data.data)
+      setPrice(variantRes.data.data[0])
+      // console.log(variantRes.data.data)
+
+    }
+
+    catch (err) {
+      console.log(err)
+    }
+
+  }
+
+  useEffect(() => {
+    fetchVarient()
+  }, [])
+
   return (
     <>
       <div>
-        <h2 className="pro-detail-heading">Lorem, ipsum.</h2>
-        <p className="pro-dt-para">Lorem Ipsum Dolor Sit Amet.</p>
+        <h2 className="pro-detail-heading">{title}</h2>
+        <p className="pro-dt-para">{des}</p>
         <div className="rate-icon-box">
           <p>
-            <b>4.5</b> <i className="bi bi-star-fill rate-icon-col"></i> | 1.2K
+            <b>4.5</b> <i className="bi bi-star-fill rate-icon-col"></i> | {rating} {' '}
             Ratings
           </p>
         </div>
       </div>
       <p className="tagline-line"></p>
-
-      <h4 className="price">
-        MRP : $6000
-        <span
-          style={{
-            textDecoration: "line-through",
-            marginLeft: "8px",
-            fontSize: "14px",
-            color: "#7a7a7a",
-          }}
-        >
-          $8000
-        </span>{" "}
-        <span className="off-font">( 75% OFF )</span>
-      </h4>
-      <p className="tax-font">inclusive of all taxes</p>
+      <div className="d-flex justify-content-between">
+        <h4 className="price">
+          MRP : {price.manualPrice}
+          <span
+            style={{
+              textDecoration: "line-through",
+              marginLeft: "8px",
+              fontSize: "14px",
+              color: "#7a7a7a",
+            }}
+          >
+            ${price.price}
+          </span>
+          <span className="off-font">( {price.discount}% OFF )</span>
+        </h4>
+        <SwitchCurrency />
+      </div>
+      <p className="tax-font">Inclusive of all taxes</p>
 
       <p className="col-fnt-sz offer-heading-txt">MORE COLORS</p>
+      <div className="color-container">
+        {
+          variant.length > 0 && variant.map((variant) => {
+            return (
+              <div style={{ backgroundColor: variant.color }} alt="Product" className="pro-color-img"></div>
 
-      <div>
-        <img src={img1} alt="Product" className="pro-color-img" />
-        <img src={img1} alt="Product" className="pro-color-img" />
-        <img src={img1} alt="Product" className="pro-color-img" />
-        <img src={img1} alt="Product" className="pro-color-img" />
-        <img src={img1} alt="Product" className="pro-color-img" />
+            )
+          })
+        }
       </div>
-      <p className="col-fnt-sz mt-4 offer-heading-txt">SELECT SIZE</p>
 
+      <p className="col-fnt-sz mt-4 offer-heading-txt">SELECT SIZE</p>
       <div style={{ display: "flex" }}>
-        <p className="sel-size">2.2</p>
-        <p className="sel-size" style={{ marginLeft: "8px" }}>
-          2.4
-        </p>
-        <p className="sel-size" style={{ marginLeft: "8px" }}>
-          2.6
-        </p>
+        {
+          variant.length > 0 && variant.map((variant) => {
+            return (
+              <p className="sel-size" style={{ marginLeft: "8px" }}>
+                {variant.size}
+              </p>
+
+            )
+          })
+        }
         <NotAvailable />
       </div>
     </>
   );
 };
 
+
+
 const NotAvailable = () => {
   return (
     <>
       <div className="out-stock" style={{ marginLeft: "8px" }}>
-        <p className="">
-          2.8
-        </p>
-
+        <p className="">2.8</p>
       </div>
     </>
   );
-}
-const DetailsBox = () => {
+};
+
+
+
+const DetailsBox = ({ des }) => {
   return (
     <>
+      <div className="" dangerouslySetInnerHTML={{
+        __html: des
+      }}></div>
       <h5 className="offer-heading-txt">
         <b>Product Details</b>
       </h5>
@@ -388,10 +550,16 @@ const DetailsBox = () => {
         eum quod cumque voluptatem, labore modi ex.
       </p>
       <ul className="pro-dtl-ft-sz">
-        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, minus.</li>
+        <li>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime,
+          minus.
+        </li>
       </ul>
       <ol className="pro-dtl-ft-sz">
-        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, dolores!</li>
+        <li>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium,
+          dolores!
+        </li>
       </ol>
       <h6 className="offer-heading-txt">
         <b>Size & Fit</b>
@@ -429,16 +597,21 @@ const DetailsBox = () => {
   );
 };
 
+
+
 const RatingBox = () => {
   return (
     <>
-      <h5 className="mt-3 offer-heading-txt">
-        <b>Ratings</b> <StarsIcon />
-      </h5>
-      <div className="d-flex justify-content-evenly">
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <h5 className="mt-3 offer-heading-txt">
+          <b>Ratings</b> <StarsIcon />
+        </h5>
+        <button className="rate-prod-btn shadow-sm">Rate Product</button>
+      </div>
+      <div className="d-flex justify-content-evenly mt-4">
         <div>
           <h5 className="rating-fnt-sz-1 mt-4">
-            4.5{" "}
+            4.5
             <i
               className="bi bi-star-fill fs-4"
               style={{ color: "#b79d33" }}
@@ -450,7 +623,7 @@ const RatingBox = () => {
         <div>
           <div>
             <p className="pro-dtl-ft-sz">
-              <span>50</span>{" "}
+              <span>50</span>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
@@ -458,7 +631,7 @@ const RatingBox = () => {
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
             </p>
             <p className="pro-dtl-ft-sz" style={{ marginTop: "-11px" }}>
-              <span>45</span>{" "}
+              <span>45</span>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
@@ -466,7 +639,7 @@ const RatingBox = () => {
               <i className="bi bi-star" style={{ color: "#b79d33" }}></i>
             </p>
             <p className="pro-dtl-ft-sz" style={{ marginTop: "-11px" }}>
-              <span>35</span>{" "}
+              <span>35</span>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
@@ -474,7 +647,7 @@ const RatingBox = () => {
               <i className="bi bi-star" style={{ color: "#b79d33" }}></i>
             </p>
             <p className="pro-dtl-ft-sz" style={{ marginTop: "-11px" }}>
-              <span>14</span>{" "}
+              <span>14</span>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star" style={{ color: "#b79d33" }}></i>
@@ -482,7 +655,7 @@ const RatingBox = () => {
               <i className="bi bi-star" style={{ color: "#b79d33" }}></i>
             </p>
             <p className="pro-dtl-ft-sz" style={{ marginTop: "-11px" }}>
-              <span>5</span>{" "}
+              <span>5</span>
               <i className="bi bi-star-fill" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star" style={{ color: "#b79d33" }}></i>
               <i className="bi bi-star" style={{ color: "#b79d33" }}></i>
@@ -495,6 +668,9 @@ const RatingBox = () => {
     </>
   );
 };
+
+
+
 
 const RatingComment = () => {
   return (
@@ -520,7 +696,7 @@ const RatingComment = () => {
         </div>
         <div className="d-flex">
           <p className="like-fnt-icon">
-            450 <ThumbUpIcon className="lk-icon-sz" />{" "}
+            450 <ThumbUpIcon className="lk-icon-sz" />
           </p>
           <p className="ms-2 like-fnt-icon">
             15 <ThumbDownIcon className="lk-icon-sz" />
@@ -531,52 +707,7 @@ const RatingComment = () => {
   );
 };
 
-const RatingForm = () => {
-  return (
-    <>
-      <div className="pro-rev-box-1 mt-4">
-        <form action="">
-          <h5 className="offer-heading-txt">
-            <b>Rate Product</b>
-          </h5>
-          <Stack spacing={1}>
-            <Rating
-              className="cmt-rev-box"
-              name="half-rating"
-              defaultValue={5}
-              precision={0.5}
-            />
-          </Stack>
-          <label htmlFor="" className="form-label mt-3 cmt-rev-fnt">
-            Your Review
-          </label>
-          <textarea
-            name=""
-            id=""
-            cols="10"
-            rows="4"
-            className="form-control cmt-rev-input"
-          ></textarea>
-          <label htmlFor="" className="form-label mt-3 cmt-rev-fnt">
-            Name
-          </label>
-          <input type="text" className="form-control cmt-rev-input" />
-          <label htmlFor="" className="form-label mt-3 cmt-rev-fnt">
-            Email
-          </label>
-          <input type="email" className="form-control cmt-rev-input" />
-          <label htmlFor="" className="form-label mt-3 cmt-rev-fnt">
-            Product
-          </label>
-          <input type="file" className="form-control cmt-rev-input" />
-          <div>
-            <button className="cmt-rev-box-smt">Submit</button>
-          </div>
-        </form>
-      </div>
-    </>
-  );
-};
+
 
 const DeliveryIcon = (props) => {
   return (
@@ -589,6 +720,8 @@ const DeliveryIcon = (props) => {
   );
 };
 
+
+
 const OfferDetails = () => {
   return (
     <>
@@ -598,7 +731,7 @@ const OfferDetails = () => {
         </h5>
         <h6 className="offer-heading-txt">
           <b>
-            Best Price: <span className="offer-price">Rs. 347</span>{" "}
+            Best Price: <span className="offer-price">Rs. 347</span>
           </b>
         </h6>
         <ul className="offer-list-fnt">
@@ -638,12 +771,14 @@ const OfferDetails = () => {
   );
 };
 
+
+
 const RelatedProduct = () => {
   const [relatedProduct, setReletedProduct] = useState([]);
 
   async function fetchData() {
     try {
-      const res = await axios.get(url + productEndPoint);
+      const res = await axios.get(url + endPoint);
       console.log(res.data.data);
       setReletedProduct(res.data.data.order);
     } catch (err) {
@@ -692,6 +827,30 @@ const RelatedProduct = () => {
       ) : (
         "loading.."
       )}
+    </>
+  );
+};
+
+
+
+
+const SwitchCurrency = () => {
+  return (
+    <>
+      <div className="leftsd-curncy-box">
+        <div className="switches-container">
+          <input type="radio" id="switchRupee" name="switchPlan" value="Rupee" checked="checked" />
+          <input type="radio" id="switchDolar" name="switchPlan" value="Dolar" />
+          <label for="switchRupee"><i className="bi bi-currency-rupee"></i></label>
+          <label for="switchDolar"><i className="bi bi-currency-dollar"></i></label>
+          <div className="switch-wrapper">
+            <div className="switch">
+              <div><i className="bi bi-currency-rupee"></i></div>
+              <div><i className="bi bi-currency-dollar"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

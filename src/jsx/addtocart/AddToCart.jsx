@@ -7,8 +7,7 @@ import Footer from '../footer/Footer';
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
-
-
+import axios from "axios";
 
 
 const url = 'http://137.184.3.191:8080/DMJ/';
@@ -16,17 +15,35 @@ const endPoint = 'api/v1/products/';
 const productEndPoint = 'api/v1/products';
 
 
+
+
 const AddToCart = () => {
 
     const [proDetails, setProDetails] = useState([])
 
-    async function addProductData() {
+    // async function addProductData() {
+    //
 
+
+    async function fethcProductData(id) {
+        try {
+            const res = await axios.get(url + productEndPoint + '/' + id)
+
+            console.log(res.data.data)
+            return res.data.data
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
+
+
+    const cart = JSON.parse(localStorage.getItem('pdIds')) || [];
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        addProductData()
+        // addProductData()
+        // console.log(cart)
     }, [])
 
     return (
@@ -45,8 +62,20 @@ const AddToCart = () => {
 
             <div className="container-fluid">
                 <div className="row">
-                    <ProductDetails />
+
+                    {
+                        cart.length > 0 && cart.map((item => {
+                            // console.log(item)
+                            fethcProductData(item)
+                            return (
+                                <ProductDetails
+                                    productId={item}
+                                />
+                            )
+                        }))
+                    }
                     <OrderDetails />
+
                 </div>
             </div>
 
@@ -71,6 +100,8 @@ class ProductDetails extends React.Component {
     }
 
     render() {
+
+        const { productId } = this.props
         return (
             <>
                 <div className="col-md-8">

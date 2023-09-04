@@ -10,13 +10,17 @@ import Banner from '../Banner/Banner';
 
 export default class About extends React.Component {
 
+    constructor(props){
+        super(props)
+        this.componentDidMount = this.componentDidMount.bind(this)
+    }
 
     componentDidMount() {
         window.scrollTo(0, 0)
     }
 
     render() {
-v
+
         return (
             <>
                 <HeaderCon />

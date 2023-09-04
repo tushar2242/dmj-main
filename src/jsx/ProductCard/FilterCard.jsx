@@ -67,6 +67,18 @@ const ProductItemCard = ({ img, item }) => {
 
   const navigate = useNavigate();
 
+
+  const addToCart = (id) => {
+
+    const existingCart = JSON.parse(localStorage.getItem('pdIds')) || [];
+    existingCart.push(id);
+
+    localStorage.setItem('pdIds', JSON.stringify(existingCart));
+  };
+
+
+
+
   function RedirectDetailsPage(id, dir) {
     navigate(dir, { state: { id: id } });
     localStorage.setItem("productId", id);
@@ -78,55 +90,60 @@ const ProductItemCard = ({ img, item }) => {
 
           <div
             className="card__container shadow-sm"
-            onClick={() => RedirectDetailsPage(item.id, "/productDetails")}
+
           >
-            <div className="bg-box"></div>
-            <div className="card__top__section">
-              <div className="pro-img-box">
-                <img src={img} alt="product" className="pro-img-card" />
-              </div>
-              <div
-                onClick={() => RedirectDetailsPage(id, "/wishlist")}
-                className="text-decoration-none"
-              ><div className="card__top__section__icons">
-                  <FavoriteBorderIcon className="card-pro-icon" />
+            <div className=""
+              onClick={() => RedirectDetailsPage(item.id, "/productDetails")} style={{cursor:'pointer'}}>
+              <div className="bg-box"></div>
+              <div className="card__top__section">
+                <div className="pro-img-box">
+                  <img src={img} alt="product" className="pro-img-card" />
+                </div>
+                <div
+                  onClick={() => RedirectDetailsPage(item.id, "/wishlist")}
+                  className="text-decoration-none"
+                ><div className="card__top__section__icons">
+                    <FavoriteBorderIcon className="card-pro-icon" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              onClick={() => RedirectDetailsPage(id, "/productDetails")}
-              className="text-decoration-none">
+              <div
+                onClick={() => RedirectDetailsPage(item.id, "/productDetails")}
+                className="text-decoration-none">
 
-              <p className="trend-cont-fnt ms-2">{item.name}</p>
+                <p className="trend-cont-fnt ms-2">{item.name}</p>
+              </div>
+              <div className="d-flex">
+                <p className="strike-text1">
+                  <b>
+                    <CurrencyRupeeIcon className="rup-icon-sz" /> {item.manualPrice}
+                  </b>
+                </p>
+                <p className="trend-price1">
+                  <b>
+                    <CurrencyRupeeIcon className="rup-icon-sz ms-1" />{item.price}
+                  </b>
+                  <span className="span-pr-fnt">on wards</span>
+                </p>
+              </div>
+              <div className="d-flex p-2">
+                <p className="trend-rt-box1">
+                  <b>
+                    4.5 <i className="bi bi-star-fill trend-rt-icon"></i>
+                  </b>
+                </p>
+                <p className="trend-span-fnt1">15 reviews</p>
+              </div>
             </div>
-            <div className="d-flex">
-              <p className="strike-text1">
-                <b>
-                  <CurrencyRupeeIcon className="rup-icon-sz" /> {item.manualPrice}
-                </b>
-              </p>
-              <p className="trend-price1">
-                <b>
-                  <CurrencyRupeeIcon className="rup-icon-sz ms-1" />{item.price}
-                </b>
-                <span className="span-pr-fnt">on wards</span>
-              </p>
-            </div>
-            <div className="d-flex p-2">
-              <p className="trend-rt-box1">
-                <b>
-                  4.5 <i className="bi bi-star-fill trend-rt-icon"></i>
-                </b>
-              </p>
-              <p className="trend-span-fnt1">15 reviews</p>
-            </div>
-
-            <NavLink to="/addToCart">
-              <div className="ft-add-cart-btn"><button className="trend-cart-btn1">
+            <div onClick={async () => {
+              await addToCart(item.id)
+              navigate('/addtocart')
+            }} >
+              <button className="trend-cart-btn">
                 <b>Add To Cart</b>
-              </button></div>
-            </NavLink>
+              </button>
+            </div>
           </div>
 
 
