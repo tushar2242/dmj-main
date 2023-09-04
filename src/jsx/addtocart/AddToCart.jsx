@@ -14,6 +14,7 @@ const url = 'http://137.184.3.191:8080/DMJ/';
 const endPoint = 'api/v1/products/';
 const productEndPoint = 'api/v1/products';
 
+var cart = JSON.parse(localStorage.getItem('pdIds')) || [];
 
 
 
@@ -21,16 +22,19 @@ const AddToCart = () => {
 
     const [proDetails, setProDetails] = useState([])
 
+    const [adtCart, setAdtCart] = useState([])
+
     // async function addProductData() {
-    //
+
 
 
     async function fethcProductData(id) {
+        console.log(id)
         try {
             const res = await axios.get(url + productEndPoint + '/' + id)
-
             console.log(res.data.data)
-            return res.data.data
+            setProDetails((items) => [...items, res.data.data])
+            // console.log(proDetails)
         }
         catch (err) {
             console.log(err)
@@ -38,47 +42,69 @@ const AddToCart = () => {
     }
 
 
-    const cart = JSON.parse(localStorage.getItem('pdIds')) || [];
+    async function updateCart(value) {
+        // console.log('fired')
+        await setAdtCart(cart)
+        cart.filter(item => item != value)
+        console.log(cart)
+    }
+
+
+
 
     useEffect(() => {
+        var cart = JSON.parse(localStorage.getItem('pdIds')) || [];
         window.scrollTo(0, 0);
+        setProDetails([])
+        setAdtCart(cart)
+        cart.map((id) => fethcProductData(id))
         // addProductData()
-        // console.log(cart)
-    }, [])
+        console.log(cart)
+    }, [cart])
 
     return (
         <>
             <HeaderCon />
             <Navbar />
-            <Banner
-                title="Cart"
-                fullTitle=""
-            >
-                <NavLink to="/" className="text-decoration-none">
-                    <i className="bi bi-chevron-left"></i>
-                    Continue shopping</NavLink>
-            </Banner>
 
 
             <div className="container-fluid">
+                <NavLink to="/search" className="text-decoration-none">
+                    <h6 className="mt-4 cont-shp"><i className="bi bi-chevron-left"></i>
+                        Continue shopping</h6></NavLink>
                 <div className="row">
+                    <div className="col-md-8">
+                        <div className="cart-bg d-flex justify-content-between" style={{ overflowX: 'hidden' }}>
+                            <h6 className="pro-font">PRODUCT</h6>
+                            <div className="d-flex">
+                                <h6 className="pro-font">QUANTITY</h6>
+                                <h6 className="pro-font ms-5">PRICE</h6>
+                                <h6 className="pro-font ms-5">REMOVE</h6>
+                            </div>
+                        </div>
 
-                    {
-                        cart.length > 0 && cart.map((item => {
-                            // console.log(item)
-                            fethcProductData(item)
-                            return (
-                                <ProductDetails
-                                    productId={item}
-                                />
-                            )
-                        }))
-                    }
-                    <OrderDetails />
+                        {
+                            proDetails.length > 0 ? proDetails.map((item, index) => {
+                                // console.log(item)
+                                return (
+                                    <ProductDetails
+                                        product={item}
+                                        removeCart={updateCart}
+                                        key={index}
+                                    />
+                                )
+                            })
+                                :
+                                <h4 className="mt-4 text-center">Please Add Some Products</h4>
+                        }
 
+
+                    </div>
+                    <div className="col-md-4">
+                        <OrderDetails />
+                    </div>
                 </div>
             </div>
-
             <Footer />
         </>
     );
@@ -92,33 +118,24 @@ class ProductDetails extends React.Component {
             items: 0,
         }
 
-        this.removeItem = this.removeItem.bind(this);
+        // this.removeItem = this.removeItem.bind(this);
     }
 
-    removeItem() {
-        console.log('fired')
-    }
+
 
     render() {
 
-        const { productId } = this.props
+        const { product, removeCart } = this.props
         return (
             <>
-                <div className="col-md-8">
-                    <div className="cart-bg d-flex justify-content-between" style={{ overflowX: 'hidden' }}>
-                        <h6 className="pro-font">PRODUCT</h6>
-                        <div className="d-flex">
-                            <h6 className="pro-font">QUANTITY</h6>
-                            <h6 className="pro-font ms-5">PRICE</h6>
-                            <h6 className="pro-font ms-5">REMOVE</h6>
-                        </div>
-                    </div>
-                    <Products
-                        productName='InterLinked Necklace'
-                        removeItem={this.removeItem}
-                    />
 
-                </div>
+
+                <Products
+                    product={product}
+                    removeItem={removeCart}
+                />
+
+
             </>
         )
     }
@@ -128,14 +145,27 @@ class Products extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            itemQuan: 2,
-            productName: 'Product Nameloremlgjsldfkasdfasdf',
+            itemQuan: 1,
+            productName: 'Sample',
             price: 3,
             totalPrice: 3,
+            thumb_img: productImg,
         }
 
         this.addQuan = this.addQuan.bind(this);
         this.minQuan = this.minQuan.bind(this);
+    }
+
+    componentDidMount() {
+        const { product } = this.props;
+        // console.log(product)
+        this.setState({
+            itemQuan: 2,
+            productName: product.seo_title,
+            price: 3,
+            totalPrice: 3,
+            thumb_img: url + 'images/' + product.thum_image
+        })
     }
 
     minQuan() {
@@ -163,28 +193,32 @@ class Products extends React.Component {
         }
 
     }
-    removeItem() {
-        console.log('fired')
-    }
+
+
+    // removeItem() {
+    //     console.log('fired')
+    // }
 
     setValue() {
         console.log('working')
     }
     render() {
-        const { itemQuan, productName, totalPrice, removeItem } = this.state;
+        const { itemQuan, productName, totalPrice, thumb_img } = this.state;
+        const { removeItem } = this.props
         return (
 
             <>
 
                 <div className="cart-display mt-3">
                     <div className="d-flex">
-                        <img src={productImg} alt="Cart" className="img-fluid cart-img" />
+                        <img src={thumb_img} alt="Cart" className="img-fluid cart-img" />
                         <div>
                             <p className="ms-2 cart-font">
                                 {productName.length < 25 ? productName : productName.slice(0, 25) + '...'
                                 }
                             </p>
                             <p className="ms-2 cart-font">Availablity : <span className="text-primary">In Stock</span></p>
+
                         </div>
                     </div>
 
@@ -212,8 +246,9 @@ class OrderDetails extends React.Component {
     render() {
         return (
             <>
-                <div className="col-md-4">
-                    <div className="order-dtl shadow-sm">
+
+                <div className="stk-box-item">
+                    <div className="order-dtl">
                         <h6 className="pro-font">Order Details</h6>
                         <hr />
                         <div className="d-flex justify-content-between mt-3">
@@ -241,7 +276,7 @@ class OrderDetails extends React.Component {
                     </div>
 
                     <div className="text-end mt-3">
-                        <NavLink to="/checkout"><button className="px-5 py-2 view-btn">Place Order</button></NavLink>
+                        <NavLink to="/checkout"><button className="trend-cart-btn">Place Order</button></NavLink>
                     </div>
                 </div>
             </>

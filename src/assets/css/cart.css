@@ -1,12 +1,16 @@
 .cart-font{
-font-size:16px;
-font-weight:500
+font-size:15px;
+font-weight:600;
+letter-spacing: 0.75px;
 }
 
 .cart-bg{
-    background-color: rgb(226, 222, 222);
-    padding:10px;
-    margin-top:30px
+	background-color:rgb(255, 255, 255);
+    padding:14px;
+    margin-top:30px;
+	box-shadow:2px 2px 3px 3px  rgb(245, 245, 245);
+	border-radius:5px;
+
 }
 .add-cart-btn{
 	background-color:rgb(0, 174, 255);
@@ -24,7 +28,8 @@ font-weight:500
 }
 .pro-font{
     font-size:16px;
-    font-weight:500
+    font-weight:600;
+	letter-spacing: 0.75px;
 }
 
 .cart-display{
@@ -125,20 +130,28 @@ font-weight:500
 }
 
 .order-dtl{
-    background-color:rgb(226, 222, 222);
-    padding:10px;
-    margin-top:30px
+    background-color:rgb(255, 255, 255);
+    padding:17px;
+    margin-top:30px;
+	box-shadow:2px 2px 5px 5px rgb(245, 245, 245);
+	border-radius:5px;
 }
 
 .sub-ttl{
     font-size:14px;
-    font-weight:500
+    font-weight:600;
+	letter-spacing: 0.75px;
 }
-
+.cont-shp{
+	font-size:15px;
+	font-weight:600;
+	letter-spacing: 0.75px;
+}
 .save-dtl{
-    font-size:16px;
-    font-weight: 500;
-    color:#0664f0
+    font-size:13px;
+    font-weight: 600;
+    color:#8f6902;
+	letter-spacing: 0.75px;
 }
 
 .wish-bg{

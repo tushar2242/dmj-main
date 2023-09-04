@@ -19,13 +19,21 @@ const NavbarDropdown = (props) => {
     const [subCate, setSubCate] = useState([]);
 
     async function fetchSubCate() {
+        // console.log(subCate)
         try {
             const res = await axios.get(`${url}${endPoint}${title}`)
             console.log(res.data.data)
-            setSubCate(res.data.data)
+            if(res.data.data){
+                // console.log('fired')
+                setSubCate(res.data.data)
+            }
+           
+          
         }
         catch (res) {
+            setSubCate([])
             console.log(res)
+          
         }
     }
 
@@ -46,7 +54,6 @@ const NavbarDropdown = (props) => {
                 <div className="row">
                     <div className="col-md-3">
                         <h6 className="menu-heading-ft mb-3"><b>SHOP BY TYPE</b></h6>
-
 
                         {
                             subCate.length > 0 && subCate.map((nav) => {
