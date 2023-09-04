@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
 
 
 const url = 'http://137.184.3.191:8080/DMJ/';
@@ -24,6 +25,8 @@ const AddToCart = () => {
 
     const [adtCart, setAdtCart] = useState([])
 
+    const [isUpdate, setIsUpdate] = useState(false)
+
     // async function addProductData() {
 
 
@@ -34,6 +37,7 @@ const AddToCart = () => {
             const res = await axios.get(url + productEndPoint + '/' + id)
             console.log(res.data.data)
             setProDetails((items) => [...items, res.data.data])
+
             // console.log(proDetails)
         }
         catch (err) {
@@ -44,9 +48,15 @@ const AddToCart = () => {
 
     async function updateCart(value) {
         // console.log('fired')
-        await setAdtCart(cart)
-        cart.filter(item => item != value)
-        console.log(cart)
+        // console.log(value)
+        // await setAdtCart(cart)
+        if (cart.length > 0) {
+            var updatingCard = cart.filter(item => value != item)
+            console.log(updatingCard)
+            localStorage.setItem('pdIds', JSON.stringify(updatingCard));
+            setIsUpdate(!isUpdate)
+        }
+
     }
 
 
@@ -60,7 +70,7 @@ const AddToCart = () => {
         cart.map((id) => fethcProductData(id))
         // addProductData()
         console.log(cart)
-    }, [cart])
+    }, [cart, isUpdate])
 
     return (
         <>
@@ -150,6 +160,7 @@ class Products extends React.Component {
             price: 3,
             totalPrice: 3,
             thumb_img: productImg,
+            itemId: 0
         }
 
         this.addQuan = this.addQuan.bind(this);
@@ -164,7 +175,8 @@ class Products extends React.Component {
             productName: product.seo_title,
             price: 3,
             totalPrice: 3,
-            thumb_img: url + 'images/' + product.thum_image
+            thumb_img: url + 'images/' + product.thum_image,
+            itemId: product.id
         })
     }
 
@@ -203,7 +215,7 @@ class Products extends React.Component {
         console.log('working')
     }
     render() {
-        const { itemQuan, productName, totalPrice, thumb_img } = this.state;
+        const { itemQuan, productName, totalPrice, thumb_img, itemId } = this.state;
         const { removeItem } = this.props
         return (
 
@@ -231,7 +243,7 @@ class Products extends React.Component {
                             </div>
                         </div>
                         <h6 className="pro-font mt-3 cart-qty"><i className="bi bi-currency-rupee"></i>{totalPrice}</h6>
-                        <h6 className="pro-font mt-3 cart-qty" onClick={() => removeItem()}><i className="bi bi-trash-fill fs-5 text-danger"></i></h6>
+                        <h6 className="pro-font mt-3 cart-qty" onClick={() => removeItem(itemId)}><i className="bi bi-trash-fill fs-5 text-danger"></i></h6>
                     </div>
                 </div>
 

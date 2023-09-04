@@ -49,7 +49,7 @@ input[type=number] {
 
 .slide {
   min-width: auto !important;
-  left: 150px;
+  /* left: 150px; */
 }
 
 .carousel.carousel-slider {

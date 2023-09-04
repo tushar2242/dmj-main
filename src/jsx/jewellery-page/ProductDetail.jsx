@@ -102,18 +102,18 @@ function Product() {
     if (id) {
       try {
         const res = await axios.get(url + endPoint + '/' + id);
-  
+
         const ratingRes = await axios.get(url + ratingEnd + '/' + id)
-  
-  
+
+
         setSelectedImage(res.data.data.thum_image)
         // console.log(variantRes.data.data)
         // setVariant(variantRes.data.data)
-  
+
         setRating(ratingRes.data.data)
-  
-  
-  
+
+
+
         setItemInfo(res.data.data);
         // console.log(res.data.data)
         setIsLoad(false);
@@ -122,13 +122,13 @@ function Product() {
         setIsLoad(false);
       }
     }
-  
+
     else {
       navigate('/')
     }
-  
+
   };
-  
+
 
   const [quantity, setQuantity] = useState(1);
   const [showDescription, setShowDescription] = useState(true);
