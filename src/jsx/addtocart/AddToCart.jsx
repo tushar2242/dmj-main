@@ -32,7 +32,7 @@ const AddToCart = () => {
 
 
     async function fethcProductData(id) {
-        console.log(id)
+        // console.log(id)
         try {
             const res = await axios.get(url + productEndPoint + '/' + id)
             console.log(res.data.data)
@@ -63,14 +63,16 @@ const AddToCart = () => {
 
 
     useEffect(() => {
-        var cart = JSON.parse(localStorage.getItem('pdIds')) || [];
+        cart = JSON.parse(localStorage.getItem('pdIds')) || [];
         window.scrollTo(0, 0);
         setProDetails([])
         setAdtCart(cart)
         cart.map((id) => fethcProductData(id))
         // addProductData()
-        console.log(cart)
-    }, [cart, isUpdate])
+        // console.log(cart)
+    }, [isUpdate])
+
+
 
     return (
         <>
@@ -128,7 +130,7 @@ class ProductDetails extends React.Component {
             items: 0,
         }
 
-        // this.removeItem = this.removeItem.bind(this);
+        
     }
 
 

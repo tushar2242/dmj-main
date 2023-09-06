@@ -4,7 +4,7 @@ import About from '../about/About';
 import Alljsx from '../alljsx/Alljsx';
 import Blog from '../blog/Blog';
 import Contact from '../contact/Contact';
-import SignUp from '../login/SignUp';
+// import SignUp from '../login/SignUp';
 import BlogDetails from '../blog/BlogDetails';
 import Carpet from '../carpet/Carpet';
 import Faq from '../faq/Faq';
@@ -60,7 +60,7 @@ export default class SetRoutes extends React.Component {
                     <Route path='/carousel' element={<CarouselBlog />} />
                     <Route path='/signUp' element={<UpdateLogin />} />
                     <Route path='/animate' element={<Animate />} />
-                    <Route path='/otp' element={<Otp />} />
+                    {/* <Route path='/otp' element={<Otp />} /> */}
                     <Route path='/login' element={<Login2 />} />
 
                     <Route path='/defaultLogin' element={<Loginpage />} />

@@ -198,6 +198,22 @@ function Product() {
     setSelectedImage(image);
   };
 
+
+  const wishList = (id) => {
+    const existingCart = JSON.parse(localStorage.getItem('wishList')) || [];
+    existingCart.push(id);
+
+    localStorage.setItem('wishList', JSON.stringify(existingCart));
+  }
+
+  const addToCart = (id) => {
+
+    const existingCart = JSON.parse(localStorage.getItem('pdIds')) || [];
+    existingCart.push(id);
+
+    localStorage.setItem('pdIds', JSON.stringify(existingCart));
+  };
+
   const location = useLocation();
   const productId = location.state?.id;
 
@@ -336,12 +352,18 @@ function Product() {
 
                 <div className="mt-2" style={{ display: "flex" }}>
                   <div>
-                    <button className="add-to-cart-btn-sz">
+                    <button className="add-to-cart-btn-sz" onClick={async () => {
+                      await addToCart(itemInfo.id)
+                      navigate('/addtocart')
+                    }} >
                       <LocalMallIcon /> ADD To CART
                     </button>
                   </div>
                   <div>
-                    <button className="wishlist-btn-sz">
+                    <button className="wishlist-btn-sz" onClick={async () => {
+                      await wishList(itemInfo.id)
+                      navigate('/wishlist')
+                    }}>
                       <FavoriteBorderIcon /> WISHLIST
                     </button>
                   </div>
