@@ -5,7 +5,7 @@ import Navbar from '../header/Navbar';
 import blogImg from '../../assets/images/blog_img/neckpiece.jpg';
 import { CategoryList, RecentBox } from '../blog/Blog';
 import recentImg from '../../assets/images/earring1.jpg';
-import CarouselBlog from '../carousel/CarouselBlog';
+// import CarouselBlog from '../carousel/CarouselBlog';
 
 export default class BlogDetails extends React.Component {
     render() {
@@ -32,8 +32,7 @@ export default class BlogDetails extends React.Component {
                             img={blogImg}
                             title=''
                             para1=' The white lavish “Platinum” is the centre of attention for all enormous reasons and is called “The King of all metals”. With being 95% pure, this precious metal has captured the hearts of all contemporary couples, and it has given its
-                        owners the significance of exclusivity. Though Indians are obsessed with gold and diamonds, there is a vast market for platinum jewellery lovers. Platinum, the limited metal of all, is revised into a gorgeous piece of jewellery by
-                        Malabar that holds its luminosity eternal, resembling the epitome of endless love.'
+                        owners the significance of exclusivity..'
                             para2=' The white lavish “Platinum” is the centre of attention for all enormous reasons and is called “The King of all metals”. With being 95% pure, this precious metal has captured the hearts of all contemporary couples, and it has given its
                         owners the significance of exclusivity. Though Indians are obsessed with gold and diamonds, there is a vast market for platinum jewellery lovers. Platinum, the limited metal of all, is revised into a gorgeous piece of jewellery by
                         Malabar that holds its luminosity eternal, resembling the epitome of endless love.'
@@ -92,7 +91,7 @@ export default class BlogDetails extends React.Component {
 
                 <p className="heading-bottom"></p>
 
-              
+
                 <Footer />
             </>
         )

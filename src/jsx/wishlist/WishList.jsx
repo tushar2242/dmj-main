@@ -84,7 +84,7 @@ export default class WishList extends React.Component {
                         <div className="row">
 
                             {
-                                prodetails.length > 0 ? prodetails.map((item,index) => {
+                                prodetails.length > 0 ? prodetails.map((item, index) => {
                                     return (
                                         <WhiteItemCard
                                             item={item}
