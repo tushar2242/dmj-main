@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 // import LocalMallIcon from '@mui/icons-material/LocalMall';
 
-const proto = 'http://137.184.3.191:8080/DMJ';
+const proto = 'https://api.diwamjewels.com/DMJ'
 const endPoint = '/api/v1/category';
 
 
@@ -15,10 +15,11 @@ const ProductWrapper = () => {
 
     const [cateData, setCateData] = useState([]);
 
+
     const fetchData = async () => {
         try {
             const res = await axios.get(proto + endPoint)
-            // console.log(res.data.data)
+            console.log(res.data.data)
             setCateData(res.data.data)
         }
         catch (err) {
@@ -71,7 +72,7 @@ class ItemCard extends React.Component {
                             <div className="row">
                                 <div className="col-md-12 text-center mt-4">
                                     <h3 className="heading-text"><b>{category[0].name}</b></h3>
-                                    <h6 className="text-secondary text-h6"><b>{category[0].seo_description} </b></h6>
+                                    <h6 className="text-secondary text-h6" dangerouslySetInnerHTML={{ __html: category[0].seo_description }}></h6>
                                 </div>
                             </div>
 
@@ -81,7 +82,7 @@ class ItemCard extends React.Component {
                                 <div className="col-md-6 mt-3 itemImg">
 
                                     <ItemImageRowCard
-                                        subCategory={category[0].subCategory}
+                                        subCategory={category[0].subCategory === null ? [] : category[0].subCategory}
                                     />
 
 
@@ -90,7 +91,7 @@ class ItemCard extends React.Component {
 
                             {
                                 <CarouselForProduct
-                                    productData={category[0].subCategory}
+                                    productData={category[0].subCategory === null ? [] : category[0].subCategory}
                                     item='img'
                                 />
                             }
@@ -98,7 +99,7 @@ class ItemCard extends React.Component {
                             <div className="showCardCarousel">
                                 <CarouselForProduct
                                     item="Card"
-                                    productData={category[0].subCategory}
+                                    productData={category[0].subCategory === null ? [] : category[0].subCategory}
                                 />
                             </div>
 
@@ -161,7 +162,7 @@ class ItemImageRowCard extends React.Component {
                 <div className="row">
                     {
 
-                        subCategory && subCategory.map((item, index) => {
+                        subCategory.length > 0 && subCategory.map((item, index) => {
                             if (index < 9) {
                                 return (
                                     <SmallImageCard
@@ -178,6 +179,7 @@ class ItemImageRowCard extends React.Component {
 
 
                         })
+
                     }
                 </div>
 
@@ -273,14 +275,14 @@ const CarouselForProduct = (props) => {
                     customTransition="all .5s"
                     transitionDuration={500}
                     containerClass="carousel-container"
-                    removeArrowOnDeviceType={["desktop", "tablet", "mobile"]}
+                    removeArrowOnDeviceType={["desktop", "tablet", "mobil1e"]}
                     dotListClass="custom-dot-list-style"
                     itemClass="carousel-item-padding-40-px"
 
                 >
 
 
-                    {productData && productData.map((product) => {
+                    {productData.length > 0 && productData.map((product) => {
                         return (<CarouselCard
                             key={product.id}
                             img={product.image}
@@ -310,7 +312,7 @@ const CarouselForProduct = (props) => {
                     itemClass="carousel-item-padding-40-px"
 
                 >
-                    {productData && productData.map((item) => {
+                    {productData.length > 0 && productData.map((item) => {
                         return (
                             <ProductCard
                                 key={item.id}

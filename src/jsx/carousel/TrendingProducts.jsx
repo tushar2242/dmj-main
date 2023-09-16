@@ -110,7 +110,7 @@ const TrendingCard = (props) => {
       <div className="col-md-3 mt-3">
         <div >
           <div className="trending-pro-card">
-            <NavLink to='/productDetails' className="text-decoration-none">
+            <NavLink to='/search' className="text-decoration-none">
 
 
               <img

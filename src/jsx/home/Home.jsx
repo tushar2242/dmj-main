@@ -12,7 +12,7 @@ import ProductWrapper from '../productWrapper/ProductWrapper';
 import Loader from '../loader/Loader';
 import TrendingProducts from '../carousel/TrendingProducts'
 
-const proto = 'http://137.184.3.191:8080/DMJ/';
+const proto = 'https://api.diwamjewels.com/DMJ/'
 const endPoint = 'api/v1/banner';
 const searchEndPoint = 'api/v1/products';
 

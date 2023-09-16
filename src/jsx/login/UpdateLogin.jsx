@@ -13,13 +13,17 @@ import FormLabel from '@mui/material/FormLabel';
 // import { Navigate, useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
+import Loader from "../loader/Loader";
+// import { withRouter } from 'react-router-dom';
+
 // import {withRouter} from 'react-router-dom';
 
 
-const url = 'http://137.184.3.191:8080/DMJ/';
+const url = 'https://api.diwamjewels.com/DMJ/'
 const endPoint = 'api/v1/user/signup';
 
-var userAuth = localStorage.getItem('userAuth')
+var userAuth = localStorage.getItem('mailOrNo')
+var auth = localStorage.getItem('auth')
 
 
 
@@ -38,6 +42,8 @@ class UpdateLogin extends React.Component {
             age: '',
             isPhoneEmail: false,
             isVerfy: false,
+
+            isLoading: false
         };
 
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -47,11 +53,18 @@ class UpdateLogin extends React.Component {
 
 
     componentDidMount() {
-        userAuth = localStorage.getItem('userAuth')
+        userAuth = localStorage.getItem('mailOrNo');
+        auth = localStorage.getItem('auth')
         // const navigator = useNavigate()
         if (userAuth) {
             this.setState({ isVerfy: true })
-            this.setState({ phoneNumber: userAuth })
+            if (auth === 'mobile') {
+                this.setState({ phoneNumber: userAuth })
+            }
+            if (auth === 'email') {
+                this.setState({ email: userAuth })
+            }
+
         }
         else {
             this.setState({ isVerfy: false })
@@ -65,10 +78,13 @@ class UpdateLogin extends React.Component {
 
     handleForm = evt => {
         evt.preventDefault();
+        this.setState({
+            isLoading: true
+        })
 
-        const { password, userName, lName, email, gender, phoneNumber, nickName } = this.state;
+        const { password, userName, lName, email, gender, phoneNumber, nickName, age } = this.state;
         let countryCode = 91;
-        let age = 43;
+        // let age = 43;
         let deviceToken = "79hifgh7"
         let name = userName + ' ' + lName
         // console.log(password, userName, gender, email, phoneNumber);
@@ -87,17 +103,28 @@ class UpdateLogin extends React.Component {
             })
             .then(response => {
                 console.log(response.data);
-                alert(response.data)
+                localStorage.setItem('userId', response.data.id)
+                this.setState({
+                    isLoading: false
+                })
+                window.location.href = '/';
+                if (response.data.message === 'Phone Number Already Registered') {
+                    alert("User Registered Please Go To Login Page")
+                    window.location.href = '/'
+                }
                 // console.log(formData);
             })
             .catch(error => {
                 alert(error)
                 console.log(error);
+                this.setState({
+                    isLoading: false
+                })
             });
     }
 
     render() {
-        const { password, userName, lName, email, gender, phoneNumber, nickName, isPhoneEmail, isVerfy } = this.state;
+        const { password, userName, lName, email, gender, phoneNumber, nickName, isPhoneEmail, isVerfy, age, isLoading } = this.state;
 
         let upperCaseMatch = /(?=.*[A-Z])/gm;
         let numericMatch = /(?=.*\d)/gm;
@@ -105,8 +132,9 @@ class UpdateLogin extends React.Component {
 
         return (
             <>
+                {isLoading && <Loader />}
                 <div className="outer-login">
-                    {!isVerfy ?
+                    {isVerfy ?
                         <div className="inner-login">
 
                             <form onSubmit={this.handleForm} style={{ height: '100%' }}>
@@ -114,12 +142,12 @@ class UpdateLogin extends React.Component {
                                     <b>Complete Your Sign up</b>
                                     <br />
                                     <div className="checkBox-input">
-                                        <div className="box-input">
+                                        <div className="box-input" >
                                             {isPhoneEmail ?
 
-                                                <label htmlFor="mobileNo mt-4">Mobile Number</label>
+                                                <label htmlFor="mobileNo mt-4">Mobile Number :-</label>
                                                 :
-                                                <label htmlFor="mobileNo mt-4">Email Id</label>
+                                                <label htmlFor="mobileNo mt-4">Email Id :-</label>
                                             }
                                             <p className="">{userAuth}</p>
                                         </div>
@@ -127,7 +155,7 @@ class UpdateLogin extends React.Component {
                                     </div>
 
                                     <TextField label="Password" variant="standard" className="inputFeild mb-1" required type='password'
-                                        onChange={(e) => this.setState({ password: e.target.value })}
+                                        onChange={(e) => this.setState({ password: e.target.value })} value={password}
                                     />
 
                                     <div className="errorBox">
@@ -150,17 +178,17 @@ class UpdateLogin extends React.Component {
                                     </div>
                                     <br />
                                     <div className="nameBox mt-2">
-                                        <TextField label="First Name" variant="standard" required onChange={(e) => this.setState({ userName: e.target.value })} />
-                                        <TextField label="Last Name" variant="standard" className="lstName" onChange={(e) => this.setState({ lName: e.target.value })} required />
+                                        <TextField label="First Name" variant="standard" required onChange={(e) => this.setState({ userName: e.target.value })} value={userName} />
+                                        <TextField label="Last Name" variant="standard" className="lstName" onChange={(e) => this.setState({ lName: e.target.value })} required value={lName} />
                                     </div>
-                                    {isPhoneEmail ?
-                                        <TextField label="Phone " type='phone' variant="standard" className="inputFeild mb-1 mt-2" onChange={(e) => this.setState({ email: e.target.value })} required />
+                                    {!isPhoneEmail ?
+                                        <TextField label="Phone " type='number' variant="standard" className="inputFeild mb-1 mt-2" value={phoneNumber} onChange={(e) => this.setState({ phoneNumber: e.target.value })} required />
                                         :
-                                        <TextField label="Email " type='email' variant="standard" className="inputFeild mb-1 mt-2" onChange={(e) => this.setState({ email: e.target.value })} required />
+                                        <TextField label="Email " type='email' variant="standard" className="inputFeild mb-1 mt-2" value={email} onChange={(e) => this.setState({ email: e.target.value })} required />
                                     }
 
 
-                                    <FormControl className="mt-3 radioControl" onChange={(e) => this.setState({ gender: e.target.value })} required>
+                                    <FormControl className="mt-3 radioControl" value={gender} onChange={(e) => this.setState({ gender: e.target.value })} required>
                                         <FormLabel id="demo-row-radio-buttons-group-label">Select Gender</FormLabel>
                                         <RadioGroup
                                             row
@@ -174,7 +202,7 @@ class UpdateLogin extends React.Component {
                                         </RadioGroup>
                                     </FormControl>
 
-                                    <TextField label="Age" type='number' variant="standard" className="inputFeild mb-1 mt-2" onChange={(e) => this.setState({ age: e.target.value })} required />
+                                    <TextField label="Age" type='number' variant="standard" className="inputFeild mb-1 mt-2" onChange={(e) => this.setState({ age: e.target.value })} value={age} required />
 
 
 
@@ -204,7 +232,7 @@ class UpdateLogin extends React.Component {
     }
 }
 
-export default UpdateLogin
+export default UpdateLogin;
 
 
 class ErrMessageBox extends React.Component {

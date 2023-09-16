@@ -11,7 +11,7 @@ import axios from "axios";
 import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
 
 
-const url = 'http://137.184.3.191:8080/DMJ/';
+const url = 'https://api.diwamjewels.com/DMJ/'
 const endPoint = 'api/v1/products/';
 const productEndPoint = 'api/v1/products';
 

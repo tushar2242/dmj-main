@@ -15,7 +15,7 @@ import axios from "axios";
 
 
 
-const url = 'http://137.184.3.191:8080/DMJ/';
+const url = 'https://api.diwamjewels.com/DMJ/'
 const endPoint = 'api/v1/category/maincategory';
 
 

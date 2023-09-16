@@ -6,13 +6,15 @@ import '../../assets/css/login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Otp from '../otp-page/Otp';
+import Loader from '../loader/Loader';
 
 // import { TextField } from '@mui/material';
 // import { withRouter } from 'react-router-dom';
 
 
 const url = 'http://137.184.3.191:8080/DMJ/';
-const endPoint = 'api/v1/user';
+const endPoint = 'api/v1/user/send/otp/signup';
+const otpEndPoint = 'api/v1/user/verify/otp'
 
 export default class Login2 extends React.Component {
 
@@ -32,23 +34,29 @@ const LoginWithMobileNo = () => {
 
     const [otp, setOtpValue] = useState('')
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const [isOtp, setOtp] = useState(false)
 
     const navigate = useNavigate()
 
     async function authUser(txt) {
         const formdata = new FormData()
-        formdata.append('request', txt)
-        formdata.append('type', false)
+        formdata.append('mailOrPhone', txt)
+        // formdata.append('type', false)
         try {
             const res = await axios.post(url + endPoint, formdata)
-            // console.log(res)
-            if (res.data.message === 'Email is not registered!') {
+            console.log(res)
+            if (res.data.message === 'OTP send successfully') {
+                setIsLoading(false)
                 setOtp(true)
-                localStorage.setItem('userAuth', mobileNo)
+                // localStorage.setItem('userAuth', mobileNo)
             }
-            if (res.data.message === 'Error: Email is already in use!') {
-                console.log('firedagain')
+            if (res.data.message === 'Email or Phone Number Already Exist') {
+                // console.log('firedagain')
+                setIsLoading(false)
+                navigate('/login')
+               
             }
             // else {
             //     alert(res.data.message)
@@ -56,7 +64,10 @@ const LoginWithMobileNo = () => {
 
         }
         catch (err) {
-            console.log(err)
+            setIsLoading(false)
+            // console.log(err.response.data.message)
+            alert(err.response.data.message)
+            navigate('/login')
         }
     }
 
@@ -66,12 +77,12 @@ const LoginWithMobileNo = () => {
 
         if (mobilePattern.test(txt)) {
             // console.log('mobile number:', txt);
-
+            localStorage.setItem('auth','mobile')
             return true
             // You can perform additional actions for a valid mobile number here.
         } else if (emailPattern.test(txt)) {
             // console.log('email address:', txt);
-
+            localStorage.setItem('auth','email')
             return true
             // You can perform additional actions for a valid email address here.
         } else {
@@ -84,6 +95,7 @@ const LoginWithMobileNo = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
 
         const valid = await validation(mobileNo)
         // const valid = await validTxt;
@@ -95,12 +107,35 @@ const LoginWithMobileNo = () => {
         // await localStorage.setItem('dmjMobileNo', mobileNo);
 
         // navigate('/otp')
+        setIsLoading(false)
     }
 
 
     async function handleVerfyOtp(e) {
+        setIsLoading(true)
         e.preventDefault();
-        console.log('Verfing otp')
+        const otpValue = {
+            "userName": mobileNo,
+            "otp": otp
+        }
+        try {
+            const otpRes = await axios.post(url + otpEndPoint, otpValue)
+
+            if (otpRes.data.message === 'OTP verified') {
+                alert("Otp Verified")
+                localStorage.setItem("mailOrNo", mobileNo)
+                navigate('/signUp')
+            }
+            else{
+                alert("Incorrect OTP")  
+                setOtpValue('')
+                setIsLoading(false)
+            }
+        }
+        catch (err) {
+            // console.log(err)
+            setIsLoading(false)
+        }
     }
 
 
@@ -108,6 +143,9 @@ const LoginWithMobileNo = () => {
     return (
         <>
 
+{
+    isLoading && <Loader/>
+}
 
             <div className="fullpage-bg">
 
@@ -117,7 +155,7 @@ const LoginWithMobileNo = () => {
                             <img src={img1} className="coupon-img" alt="Coupon" />
                             <div className="user-login">
                                 <h6><b>Login or Signup</b></h6>
-                                <form style={{ position: 'relative' }}>
+                                <form style={{ position: 'relative' }} onSubmit={(e) => { e.preventDefault() }} >
                                     {/* <p className='tele-code'>+91</p> */}
 
                                     {
@@ -151,7 +189,9 @@ const LoginWithMobileNo = () => {
                                         :
                                         <button type="button" className="continue-btn" onClick={(e) => {
                                             handleVerfyOtp(e)
-                                        }}>Verify OTP</button>}
+                                        }}>Verify OTP</button>
+
+                                    }
                                     <p className="tp-text">Already Have an account ? <NavLink to="/defaultLogin" className="tp-color"><span className="text-danger"><b>Login</b></span></NavLink></p>
                                 </form>
                             </div>

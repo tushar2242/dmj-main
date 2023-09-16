@@ -7,7 +7,7 @@ import axios from 'axios';
 
 
 
-const url = 'http://137.184.3.191:8080/DMJ/';
+const url = 'https://api.diwamjewels.com/DMJ/'
 const endPoint = 'api/v1/products/';
 const productEndPoint = 'api/v1/products';
 
@@ -55,7 +55,7 @@ export default class WishList extends React.Component {
         this.setState({ prodetails: [] });
         // setAdtCart(cart)
         wishList.map((id) => this.handleWishListItems(id))
-        // addProductData()
+        // addProductData() 
 
     }
 

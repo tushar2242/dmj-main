@@ -13,7 +13,7 @@ import "./Productdetail.css";
 import axios from "axios";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import Footer from "../footer/Footer";
 import Loader from "../loader/Loader";
 import { ProductCard } from "../carousel/CarouselForHome";
@@ -44,14 +44,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 
-const url = "http://137.184.3.191:8080/DMJ/";
+const url = 'https://api.diwamjewels.com/DMJ/'
 const endPoint = "api/v1/products";
 const ratingEnd = 'api/v1/Rating/count'
 const variantEnd = 'api/v1/variantproduct/productId';
 const sizeEnd = 'api/v1/variantproduct/productIdwithSize/1?size='
-const colorEnd = 'api/v1/variantproduct/productIdwithColor/1?color=green'
-
-const id = localStorage.getItem("productId");
+const colorEnd = 'api/v1/variantproduct/productIdwithColor/1?color=green';
+const getProductEnd = 'api/v1/products/sku/';
+const slug = 'this is slug'
+const skuid = 'dmj@123'
+// const id = localStorage.getItem("productId");
 
 
 // const productEndPoint = "api/v1/products";/
@@ -97,45 +99,13 @@ const responsive1 = {
 
 function Product() {
 
-  const fetchData = async () => {
-
-    if (id) {
-      try {
-        const res = await axios.get(url + endPoint + '/' + id);
-
-        const ratingRes = await axios.get(url + ratingEnd + '/' + id)
-
-
-        setSelectedImage(res.data.data.thum_image)
-        // console.log(variantRes.data.data)
-        // setVariant(variantRes.data.data)
-
-        setRating(ratingRes.data.data)
-
-
-
-        setItemInfo(res.data.data);
-        // console.log(res.data.data)
-        setIsLoad(false);
-      } catch (err) {
-        console.log(err);
-        setIsLoad(false);
-      }
-    }
-
-    else {
-      navigate('/')
-    }
-
-  };
-
-
+  const [decryptedProductId, setDecryptedProductId] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [showDescription, setShowDescription] = useState(true);
   const [showReview, setShowReview] = useState(false);
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState("");
-  const [apiCheck, setApiCheck] = useState(false);
+  const [apiCheck, setApiCheck] = useState(true);
 
   const [itemInfo, setItemInfo] = useState([]);
   const [isLoad, setIsLoad] = useState(true);
@@ -143,49 +113,84 @@ function Product() {
   const [rating, setRating] = useState('');
 
 
-
-
   const navigate = useNavigate()
 
 
+  // const decryptProductId = (encryptedProductId) => {
+  //   try {
+  //     const bytes = CryptoJS.AES.decrypt(encryptedProductId, secretKey);
+  //     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+  //     return (decrypted)
+  //   } catch (error) {
+  //     setDecryptedProductId('Decryption failed');
+  //   }
+  // };
 
 
-  const handleDescriptionClick = () => {
-    setShowDescription(true);
-    setShowReview(false);
-  };
 
-  const handleReviewClick = () => {
-    setShowDescription(false);
-    setShowReview(true);
-  };
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-  const handeldec = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
+  async function getProductId(skuNo) {
+    try {
+      const proRes = await axios.get(url + getProductEnd + skuNo)
+
+      return (proRes.data.data.id)
     }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+
+  async function fetchRating(id) {
+    try {
+      const ratingRes = await axios.get(url + ratingEnd + '/' + id)
+      setRating(ratingRes.data.data)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+
+  const fetchData = async () => {
+    // const { slug, skuid } = useParams();
+
+    if (slug && skuid) {
+      // const id = await decryptProductId(pId)
+
+      const id = await getProductId(skuid)
+      await fetchRating(id)
+
+      try {
+        const res = await axios.get(url + endPoint + '/' + id);
+
+        // console.log(res.data.data)
+        setSelectedImage(res.data.data.images[0])
+        // console.log(variantRes.data.data)
+        // setVariant(variantRes.data.data)
+
+        const commaSeparatedString = await res.data.data.images[0].pictures;
+        const imgArray = commaSeparatedString.split(',');
+        setSelectedImage(imgArray[0])
+        setImages(imgArray)
+
+
+        setItemInfo(res.data.data);
+        // console.log(res.data.data)
+        setIsLoad(false);
+        // setApiCheck(false)
+      } catch (err) {
+        console.log(err);
+        setIsLoad(false);
+      }
+    }
+
+
   };
 
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 2,
-    },
-  };
+
+
+
+
 
 
   useEffect(() => {
@@ -193,8 +198,9 @@ function Product() {
     fetchData();
   }, []);
 
+
   const handleImageClick = (image) => {
-    console.log(image);
+    // console.log(image);
     setSelectedImage(image);
   };
 
@@ -214,8 +220,7 @@ function Product() {
     localStorage.setItem('pdIds', JSON.stringify(existingCart));
   };
 
-  const location = useLocation();
-  const productId = location.state?.id;
+  // const location = useLocation();
 
   // console.log(productId)
   // console.log(id)
@@ -240,19 +245,27 @@ function Product() {
                         modules={[Navigation, Pagination]}
                         className="mySwiper"
                       >
-                        {!isLoad &&
-                          itemInfo.pictures.map((image, index) => (
-                            <div
-                              key={index}
-                              className="smalCarouselimg"
-                              onClick={() => handleImageClick(image)}
-                            >
-                              <img
-                                src={url + "images/" + image}
-                                alt={`Image ${index + 1}`}
-                              />
-                            </div>
-                          ))}
+                        {images.length > 0 &&
+                          images.map((image, index) => {
+                            // console.log(image)
+                            return (
+                              <>
+                                <div
+                                  key={index}
+                                  className="smalCarouselimg"
+                                  onClick={() => handleImageClick(image)}
+                                >
+                                  <img
+                                    src={url + "images/" + image}
+                                    alt={`Image ${index + 1}`}
+                                  />
+                                </div>
+
+
+                              </>
+                            )
+                          }
+                          )}
                       </Swiper>
                     </div>
                   </div>
@@ -348,6 +361,7 @@ function Product() {
                   // price={price.price}
                   // discount={price.discount}
                   rating={rating}
+                  variant={itemInfo.images}
                 />
 
                 <div className="mt-2" style={{ display: "flex" }}>
@@ -451,40 +465,53 @@ export default ProductDetails;
 
 
 
-const ProductPrice = ({ title, des, rating }) => {
+const ProductPrice = ({ title, des, rating, variant }) => {
 
 
-  const [variant, setVariant] = useState([])
+  // const [variant, setVariant] = useState([])
 
-  const [price, setPrice] = useState([]);
+  const [price, setPrice] = useState({});
+  const [selectedColor, setSelectedColor] = useState('')
+  const [selectedSize, setSelectedSize] = useState('')
 
+  async function fetchPrice() {
 
-
-  async function fetchVarient() {
-    try {
-      const variantRes = await axios.get(url + variantEnd + '/' + id);
-
-      setVariant(variantRes.data.data)
-      setPrice(variantRes.data.data[0])
-      // console.log(variantRes.data.data)
-
-    }
-
-    catch (err) {
-      console.log(err)
-    }
-
+    await setPrice({
+      "manualPrice": variant[0].productVariantEntities[0].manualPrice,
+      "price": variant[0].productVariantEntities[0].price,
+      "discount": variant[0].productVariantEntities[0].discount
+    })
+    setSelectedColor(variant[0].productVariantEntities[0].color)
+    setSelectedSize(variant[0].productVariantEntities[0].size)
   }
 
   useEffect(() => {
-    fetchVarient()
+    // console.log('fired')
+    window; scrollTo(0, 0)
+    // console.log(variant[0].productVariantEntities)
+    fetchPrice()
+    console.log(price)
   }, [])
+
+  // async function handleVaraintSize(size) {
+  //   setSelectedSize(size)
+  // }
+
+  async function handleVariantColor(color) {
+    setSelectedSize(color)
+  }
+
+
+
+
+
+
 
   return (
     <>
       <div>
         <h2 className="pro-detail-heading">{title}</h2>
-        <p className="pro-dt-para">{des}</p>
+        <p className="pro-dt-para" dangerouslySetInnerHTML={{ __html: des }}></p>
         <div className="rate-icon-box">
           <p>
             <b>4.5</b> <i className="bi bi-star-fill rate-icon-col"></i> | {rating} {' '}
@@ -514,26 +541,36 @@ const ProductPrice = ({ title, des, rating }) => {
 
       <p className="col-fnt-sz offer-heading-txt">MORE COLORS</p>
       <div className="color-container">
+        <div style={{ backgroundColor: selectedColor }} alt="Product" className="pro-color-img-active"></div>
         {
-          variant.length > 0 && variant.map((variant) => {
-            return (
-              <div style={{ backgroundColor: variant.color }} alt="Product" className="pro-color-img"></div>
+          variant[0].productVariantEntities.length > 0 && variant[0].productVariantEntities.map((color) => {
+            // console.log(color.color)
+            if (color.color != selectedColor) {
+              console.log(color.color)
+              return (
+                <div style={{ backgroundColor: color.color }} alt="Product" className="pro-color-img" onClick={() => handleVariantColor(color.color)}></div>
 
-            )
+              )
+            }
           })
         }
       </div>
 
       <p className="col-fnt-sz mt-4 offer-heading-txt">SELECT SIZE</p>
       <div style={{ display: "flex" }}>
+        <p className="sel-size-active" style={{ marginLeft: "8px" }}>
+          {selectedSize}
+        </p>
         {
-          variant.length > 0 && variant.map((variant) => {
-            return (
-              <p className="sel-size" style={{ marginLeft: "8px" }}>
-                {variant.size}
-              </p>
+          variant[0].productVariantEntities.length > 0 && variant[0].productVariantEntities.map((varSize) => {
+            if (varSize.size !== selectedSize) {
+              return (
+                <p className="sel-size" style={{ marginLeft: "8px" }} >
+                  {varSize.size}
+                </p>
 
-            )
+              )
+            }
           })
         }
         <NotAvailable />
@@ -559,69 +596,22 @@ const NotAvailable = () => {
 const DetailsBox = ({ des }) => {
   return (
     <>
-      <div className="" dangerouslySetInnerHTML={{
-        __html: des
-      }}></div>
+      <div className="" ></div>
       <h5 className="offer-heading-txt">
         <b>Product Details</b>
       </h5>
-      <p className="pro-dtl-ft-sz">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab debitis
-        quidem alias vero officia molestias! Lorem ipsum dolor sit, amet
-        consectetur adipisicing elit. Magni consectetur fuga dolorum sapiente
-        eum quod cumque voluptatem, labore modi ex.
+      <p className="pro-dtl-ft-sz" dangerouslySetInnerHTML={{
+        __html: des
+      }}>
       </p>
-      <ul className="pro-dtl-ft-sz">
-        <li>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime,
-          minus.
-        </li>
-      </ul>
-      <ol className="pro-dtl-ft-sz">
-        <li>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium,
-          dolores!
-        </li>
-      </ol>
-      <h6 className="offer-heading-txt">
-        <b>Size & Fit</b>
-      </h6>
-      <p className="pro-dtl-ft-sz">Length: 2.2 cm</p>
-      <h6 className="offer-heading-txt">
-        <b>Material & Care</b>
-      </h6>
-      <p className="pro-dtl-ft-sz">Material: Alloy</p>
-      <p className="pro-dtl-ft-sz mate-mg-tp">Plating: Gold plated</p>
-      <p className="pro-dtl-ft-sz mate-mg-tp">Stone type: American diamond</p>
-      <p className="pro-dtl-ft-sz mate-mg-tp">
-        Wipe with a clean cotton swab when needed
-      </p>
-      <h6 className="offer-heading-txt">
-        <b>Specifications</b>
-      </h6>
-      <div className="product-display">
-        <div>
-          <p className="spe-p-tag">Occasion</p>
-          <h6 className="pro-dtl-ft-sz mate-mg-tp">
-            <b>Western</b>
-          </h6>
-          <hr className="w-100" />
-        </div>
-        <div style={{ marginLeft: "50px" }}>
-          <p className="spe-p-tag">Base Metal</p>
-          <h6 className="pro-dtl-ft-sz mate-mg-tp">
-            <b>Alloy</b>
-          </h6>
-          <hr className="w-100" />
-        </div>
-      </div>
+      <div className="p-4"></div>
     </>
   );
 };
 
 
 
-const RatingBox = () => {
+function RatingBox() {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -689,7 +679,7 @@ const RatingBox = () => {
       </div>
     </>
   );
-};
+}
 
 
 

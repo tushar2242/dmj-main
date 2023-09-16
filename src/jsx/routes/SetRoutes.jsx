@@ -61,9 +61,9 @@ export default class SetRoutes extends React.Component {
                     <Route path='/signUp' element={<UpdateLogin />} />
                     <Route path='/animate' element={<Animate />} />
                     {/* <Route path='/otp' element={<Otp />} /> */}
-                    <Route path='/login' element={<Login2 />} />
+                    <Route path='/defaultlogin' element={<Login2 />} />
 
-                    <Route path='/defaultLogin' element={<Loginpage />} />
+                    <Route path='/login' element={<Loginpage />} />
 
 
                     <Route path='/loader' element={<Loader />} />
@@ -72,7 +72,7 @@ export default class SetRoutes extends React.Component {
                     <Route path='/checkout' element={<CheckoutPage />} />
                     <Route path='/card' element={<FilterCard />} />
                     <Route path='/search' element={<Search />} />
-                    <Route path='/productDetails' element={<ProductDetails />} />
+                    <Route path='/productDetails/:slug/:skuid' element={<ProductDetails />} />
                     <Route path='/privacypolicy' element={<Privacy />} />
                     <Route path='/termscondition' element={<Terms />} />
                     <Route path='/refundpolicy' element={<Refund />} />

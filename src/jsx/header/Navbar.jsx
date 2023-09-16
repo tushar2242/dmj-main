@@ -57,6 +57,10 @@ function Navbar() {
         setProfile(true)
     }
 
+    async function handleSignOut() {
+        localStorage.removeItem('userId')
+    }
+
 
 
     return (
@@ -126,10 +130,13 @@ function Navbar() {
                             <i className="bi bi-person-circle nav-icon-item ms-5"></i>
                         </div>
                         {profile && <div className="more-profile">
-                            {!userId ? <li onClick={async () => { navigate('/login') }}>Login / Sign Up</li>
+                            {!userId ? <li onClick={async () => { navigate('/defaultlogin') }}>Login / Sign Up</li>
                                 : <>
                                     <li>Profile</li>
-                                    <li className='mt-2'>Sign Out</li>
+                                    <li className='mt-2' onClick={() => { 
+                                        handleSignOut() 
+                                        window.location.reload()
+                                        }}>Sign Out</li>
                                 </>
                             }
 

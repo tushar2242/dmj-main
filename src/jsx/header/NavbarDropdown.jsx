@@ -5,8 +5,7 @@ import axios from "axios";
 import { addSearch } from "../redux/dmjSlice";
 import { useDispatch } from "react-redux";
 
-
-const url = 'http://137.184.3.191:8080/DMJ/';
+const url = 'https://api.diwamjewels.com/DMJ/'
 const endPoint = 'api/v1/category/maincategoryName/';
 
 const NavbarDropdown = (props) => {

@@ -11,8 +11,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import cardUpdateImg from '../../assets/images/DMJImage.jpg';
 import axios from 'axios';
 
-
-const proto = 'http://137.184.3.191:8080/DMJ/';
+const proto = 'https://api.diwamjewels.com/DMJ/'
 
 
 

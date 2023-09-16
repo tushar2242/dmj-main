@@ -12,9 +12,10 @@ import axios from 'axios';
 // import { fetchData } from '../jewellery-page/ProductDetail';
 
 
-const url = "http://137.184.3.191:8080/DMJ/";
+const url = 'https://api.diwamjewels.com/DMJ/'
 const productEnd = 'api/v1/products';
 const productId = localStorage.getItem('productId');
+const userId = localStorage.getItem("userId")
 
 
 const ReviewPage = () => {
@@ -95,7 +96,7 @@ const RateProduct = () => {
               <h6 className="revw-hd-fnt-bx"><b>{product.seo_title}</b></h6>
               <p className="rt-user-fnt-sz"><span className="rt-bg-view">4.5<StarIcon className="str-rate-icon" /></span> 700 users</p>
             </div>
-            <img src={url+'images/'+product.thum_image} alt="image" className="rate-prod-img-1 ms-3" />
+            <img src={url + 'images/' + product.thum_image} alt="image" className="rate-prod-img-1 ms-3" />
           </div>
         </div>
       </div>
@@ -109,7 +110,7 @@ const RatingForm = () => {
   const rating = 'api/v1/Rating'
 
   const userId = '1';
-  const updateRating = 'api/v1/Rating/particularUser/1/1';
+  const updateRating = 'api/v1/Rating/particularUser/';
 
 
   const [star, setStar] = useState('')
@@ -119,7 +120,7 @@ const RatingForm = () => {
 
   async function fetchRating() {
     try {
-      const res = await axios.get(url + updateRating)
+      const res = await axios.get(url + updateRating + productId + '/' + userId)
       // console.log(res.data.data.rating)
       setStar(res.data.data.rating)
       // setRender(false)

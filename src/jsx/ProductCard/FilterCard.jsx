@@ -7,24 +7,27 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const proto = "http://137.184.3.191:8080/DMJ/";
-const endPoint = "api/v1/products/search?query=j";
+const proto = 'https://api.diwamjewels.com/DMJ/'
+const endPoint = "api/v1/products/search?query=";
 
 // const search = 'dd';
 
+const page = undefined;
+
 const FilterCard = () => {
+
   const searchSelctor = useSelector((state) => state.product.search.payload);
 
   const [searchData, setSearchData] = useState([]);
 
   const fetData = async () => {
     try {
-      const res = await axios.get(`${proto}${endPoint}${searchSelctor}`);
-      // console.log(res.data.data.order)
+      const res = await axios.get(`${proto}${endPoint}${searchSelctor}&pageSize=0`);
+      // console.log(res.data.data)
       setSearchData(res.data.data.order);
     } catch (error) {
       console.log(error);
@@ -76,11 +79,12 @@ const ProductItemCard = ({ img, item }) => {
     localStorage.setItem('pdIds', JSON.stringify(existingCart));
   };
 
-
+  const dispatch = useDispatch()
 
 
   function RedirectDetailsPage(id, dir) {
     navigate(dir, { state: { id: id } });
+    dispatch(addSearch(val));
     localStorage.setItem("productId", id);
   }
   return (
@@ -90,10 +94,9 @@ const ProductItemCard = ({ img, item }) => {
 
           <div
             className="card__container shadow-sm"
-
           >
             <div className=""
-              onClick={() => RedirectDetailsPage(item.id, "/productDetails")} style={{cursor:'pointer'}}>
+              onClick={() => RedirectDetailsPage(item.id, "/productDetails")} style={{ cursor: 'pointer' }}>
               <div className="bg-box"></div>
               <div className="card__top__section">
                 <div className="pro-img-box">
